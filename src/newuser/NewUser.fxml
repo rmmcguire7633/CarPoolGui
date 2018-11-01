@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="530.0" prefWidth="400.0" stylesheets="@../resources/dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="newuser.NewUserController">
+  <children>
+    <JFXTextField fx:id="username" labelFloat="true" layoutX="95.0" layoutY="122.0" prefHeight="33.0" prefWidth="259.0" promptText="Username">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </JFXTextField>
+    <JFXTextField fx:id="email" labelFloat="true" layoutX="95.0" layoutY="181.0" prefHeight="33.0" prefWidth="259.0" promptText="e-mail Address">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </JFXTextField>
+    <JFXPasswordField fx:id="pswd" labelFloat="true" layoutX="95.0" layoutY="239.0" onAction="#passwordTextField" prefHeight="34.0" prefWidth="259.0" promptText="Password">
+      <font>
+        <Font size="17.0" />
+      </font>
+    </JFXPasswordField>
+    <JFXPasswordField fx:id="pswd2" labelFloat="true" layoutX="95.0" layoutY="295.0" prefHeight="34.0" prefWidth="259.0" promptText="Confirm Password">
+      <font>
+        <Font size="17.0" />
+      </font>
+    </JFXPasswordField>
+    <FontAwesomeIconView glyphName="USER_PLUS" layoutX="169.0" layoutY="74.0" size="55" />
+    <FontAwesomeIconView glyphName="USER" layoutX="64.0" layoutY="149.0" size="25" />
+    <FontAwesomeIconView glyphName="KEY" layoutX="64.0" layoutY="265.0" size="25" />
+    <JFXButton defaultButton="true" layoutX="45.0" layoutY="391.0" onAction="#createNewUserButtonPushed" prefHeight="40.0" prefWidth="155.0" styleClass="login-button" text="Create New User" />
+    <JFXButton layoutX="225.0" layoutY="391.0" onAction="#cancelButtonPushed" prefHeight="40.0" prefWidth="102.0" styleClass="login-button" text="Cancel" />
+
+      <FontAwesomeIconView glyphName="KEY" layoutX="64.0" layoutY="323.0" size="25" />
+
+      <MaterialDesignIconView />
+      <OctIconView glyphName="MAIL" layoutX="64.0" layoutY="210.0" size="25" />
+      <JFXCheckBox checkedColor="#ffff8d" layoutX="155.0" layoutY="455.0" text="Not a Robot" textFill="#b2b2b2" />
+  </children>
+</AnchorPane>
