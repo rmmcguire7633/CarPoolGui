@@ -11,7 +11,7 @@ public class ConnectionClass {
   public static Connection getConnection() throws Exception {
 
     try {
-      final String databaseURL = "jdbc:derby:C:\\Users\\sketc\\IdeaProjects\\Carpool\\lib\\carpool";
+      final String databaseURL = "jdbc:derby:C:\\Users\\sketc\\IdeaProjects\\CarPoolGui\\lib\\carpool";
 
       Connection connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
       System.out.println("Connected");
