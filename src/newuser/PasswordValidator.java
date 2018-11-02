@@ -20,8 +20,9 @@ public class PasswordValidator implements Validator {
   private Pattern pattern;
   private Matcher matcher;
 
-  /**must have at least 1 number character, at least one Capital letter character and be between 6 and 20 characters long.
-   *
+  /**
+   * must have at least 1 number character, at least one Capital letter character and be between
+   * 6 and 20 characters long.
    */
   private static final String PASSWORD_FORMAT = "((?=.*\\d)(?=.*[A-Z]).{6,20})";
 
@@ -30,6 +31,7 @@ public class PasswordValidator implements Validator {
     pattern = Pattern.compile(PASSWORD_FORMAT);
   }
 
+  @Override
   public boolean Validate(final String password) {
 
     matcher = pattern.matcher(password);

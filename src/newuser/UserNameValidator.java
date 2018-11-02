@@ -8,10 +8,20 @@ public class UserNameValidator implements Validator{
   private Pattern pattern;
   private Matcher matcher;
 
-  private static final String USERNAME_FORMAT = "()";
+  /**
+   * must be between 6 and 20 charters long.
+   * */
+  private static final String USERNAME_FORMAT = "(.{6,20})";
+
+  public UserNameValidator (){
+
+    pattern = Pattern.compile(USERNAME_FORMAT);
+  }
 
   @Override
-  public boolean Validate(String password) {
-    return false;
+  public boolean Validate(final String password) {
+
+    matcher = pattern.matcher(password);
+    return matcher.matches();
   }
 }

@@ -23,20 +23,28 @@ public class NewUserController {
 
   @FXML private TextField pswd;
   @FXML private TextField pswd2;
+  @FXML private TextField username;
 
-  PasswordValidator passwordValidator = new PasswordValidator();
+  private PasswordValidator passwordValidator = new PasswordValidator();
+
+  private UserNameValidator userNameValidator = new UserNameValidator();
 
   public void createNewUserButtonPushed(ActionEvent actionEvent) throws IOException {
 
-    Boolean result = passwordValidator.Validate(pswd.getText());
-    System.out.println(result);
+    //returns true if password meets the requirements.
+    Boolean resultPassword = passwordValidator.Validate(pswd.getText());
+    //used for debugging
+    System.out.println(resultPassword);
 
     String password = pswd.getText();
     String password2 = pswd2.getText();
 
+    //returns true if user name meets the requirements.
+    Boolean resultUserName = userNameValidator.Validate(username.getText());
+
     //if password has one number, one number,is between 6-20 characters long and both
-    // pass word fields are the ame.
-    if (result == true && password.equals(password2)) {
+    // pass word fields are the same and usr name is between 6-20 characters long.
+    if (resultPassword == true && password.equals(password2) && resultUserName == true) {
 
       Stage stage = main.MainLogin.getPrimaryStage();
 
@@ -48,13 +56,20 @@ public class NewUserController {
     else {
 
       //if password does not have one number, one capitol letter or is not between 6-20 characters long.
-      if (result == false) {
+      if (resultPassword == false) {
 
         pswd.getStyleClass().add("wrong-credentials");
 
         Validator.ErrorBox("Incorrect password format",
             "password must contain at least one capital letter, one number and be"
                 + "between 6-20 characters long");
+      }
+      else if (resultUserName == false) {
+
+        username.getStyleClass().add("wrong-credentials");
+
+        Validator.ErrorBox("Incorrect user name format",
+            "user name must be between 6-20 characters long");
       }
       else {
 
