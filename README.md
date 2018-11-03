@@ -58,4 +58,5 @@ preferred java IDE or run from the command line.
 ## Acknowledgments
 * Scott Vanselow for helping with the development of code
 * Afsal Villan for contributing the idea of the CSS style
+* https://emailregex.com/ for the email regex format
 
