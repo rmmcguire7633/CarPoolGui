@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +34,7 @@ public class LoginController {
   /**
    * When this method is called the scene will change to the Main menu scene if username and password is correct.
    ***/
-  public void signInButtonPushed(ActionEvent actionEvent) throws IOException {
+  public void signInButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
 
     //If username and password is correct.
     if (isValid()) {
@@ -58,9 +59,9 @@ public class LoginController {
 
   /**
    * Searches database for username and password and compares it against the textfield and password field.
-   * Returns True if username and password match the textfield.
+   * @return true if username and password match the textfield.
    * */
-  private boolean isValid() {
+  private boolean isValid() throws SQLException {
 
     boolean validation = false;
 
@@ -71,22 +72,31 @@ public class LoginController {
 
       final String databaseURL = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
-      connection.setAutoCommit(false);
+      //connection.setAutoCommit(false);
       System.out.println("connected to database");
 
       statement = connection.createStatement();
 
-      ResultSet resultSet = statement.executeQuery( "SELECT * FROM USERINFO WHERE USERNAME= " + "'" + username.getText() + "'"
+      ResultSet resultSet = statement.executeQuery( "SELECT * FROM USERINFO WHERE USERNAME= "
+          + "'" + username.getText() + "'"
           + " AND PASSWORD= " + "'" + password.getText() + "'");
 
       while (resultSet.next()) {
-        if (resultSet.getString("USERNAME") != null && resultSet.getString("PASSWORD") != null) {
+        if (resultSet.getString("USERNAME") != null &&
+            resultSet.getString("PASSWORD") != null) {
 
           String user = resultSet.getString("USERNAME");
           System.out.println("USERNAME = " + user);
 
           String pswd = resultSet.getString("PASSWORD");
           System.out.println("PASSWORD = " + pswd);
+
+          String email = resultSet.getString("EMAIL");
+          System.out.println("EMAIL = " + email);
+
+          Boolean ifDriver = resultSet.getBoolean("DRIVER");
+          System.out.println("ARE THEY A DRIVER = " + ifDriver);
+
           validation = true;
         }
       }

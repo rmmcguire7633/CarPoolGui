@@ -19,9 +19,9 @@ public class UserNameValidator implements Validator{
   }
 
   @Override
-  public boolean Validate(final String password) {
+  public boolean Validate(final String userName) {
 
-    matcher = pattern.matcher(password);
+    matcher = pattern.matcher(userName);
     return matcher.matches();
   }
 }

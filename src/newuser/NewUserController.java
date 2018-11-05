@@ -9,13 +9,16 @@
 package newuser;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -24,10 +27,13 @@ public class NewUserController {
   @FXML private TextField pswd;
   @FXML private TextField pswd2;
   @FXML private TextField username;
+  @FXML private TextField email;
 
   private PasswordValidator passwordValidator = new PasswordValidator();
 
   private UserNameValidator userNameValidator = new UserNameValidator();
+
+  private EmailValidator emailValidator = new EmailValidator();
 
   public void createNewUserButtonPushed(ActionEvent actionEvent) throws IOException {
 
@@ -42,9 +48,15 @@ public class NewUserController {
     //returns true if user name meets the requirements.
     Boolean resultUserName = userNameValidator.Validate(username.getText());
 
+    //returns true if email address meets the requirements.
+    Boolean resultEmail = emailValidator.Validate(email.getText());
+    System.out.println(resultEmail);
+
     //if password has one number, one number,is between 6-20 characters long and both
     // pass word fields are the same and usr name is between 6-20 characters long.
-    if (resultPassword == true && password.equals(password2) && resultUserName == true) {
+    if (resultPassword && password.equals(password2) && resultUserName && resultEmail) {
+
+      addUser();
 
       Stage stage = main.MainLogin.getPrimaryStage();
 
@@ -71,6 +83,13 @@ public class NewUserController {
         Validator.ErrorBox("Incorrect user name format",
             "user name must be between 6-20 characters long");
       }
+      else if (resultEmail == false) {
+
+        email.getStyleClass().add("wrong-credentials");
+
+        Validator.ErrorBox("Incorrect e-mail format", "email "
+            + "address must have a @ symbol");
+      }
       else {
 
         pswd.getStyleClass().add("wrong-credentials");
@@ -93,5 +112,35 @@ public class NewUserController {
   }
 
   public void passwordTextField(ActionEvent actionEvent) {
+  }
+
+  private void addUser() {
+
+    Connection connection = null;
+
+    try {
+
+      final String databaseURL = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
+
+      System.out.println("connected to database");
+
+      String query = " INSERT INTO userinfo (userName,password,email,driver)"
+          + "VALUES (?, ?, ?, ?)";
+
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setString(1, username.getText());
+      statement.setString(2, pswd.getText());
+      statement.setString(3, email.getText());
+      statement.setBoolean(4, false);
+
+      statement.execute();
+      statement.close();
+      connection.close();
+
+    } catch (Exception e ) {
+
+      System.out.println(e);
+    }
   }
 }

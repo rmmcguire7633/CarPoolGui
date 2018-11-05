@@ -7,16 +7,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 
 public interface Validator {
-  
-  Pattern pattern = null;
-  Matcher matcher = null;
 
   /**
-   * Validates the password input based on the regular expression(PASSWORD_FORMAT)
-   * @param password password for the validation.
-   * @return true if the password is valid, false otherwise.
+   * Validates the the input of the user.
+   * @param textToBeCompared user input that is being compared.
+   * @return true if user input == correct format.
    * */
-  public boolean Validate(final String password);
+  boolean Validate(final String textToBeCompared);
 
   /**
    * Displays an error box when called.
