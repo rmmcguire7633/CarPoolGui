@@ -1,125 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="519.0" stylesheets="@../resources/dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainMenuController">
    <children>
       <JFXDrawer />
       <AnchorPane prefHeight="473.0" prefWidth="519.0">
          <children>
-            <JFXTabPane layoutX="10.0" layoutY="29.0" prefHeight="461.0" prefWidth="509.0">
+            <JFXTabPane layoutX="178.0" prefHeight="490.0" prefWidth="343.0">
                <tabs>
-                  <Tab text="Rider">
+                  <Tab text="Ride">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="421.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="307.0">
                            <children>
-                              <BorderPane prefHeight="459.0" prefWidth="509.0">
-                                 <bottom>
-                                    <HBox prefHeight="74.0" prefWidth="515.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <JFXButton contentDisplay="TOP" onAction="#accountSettingsButtonPushed" prefHeight="64.0" prefWidth="172.0" text="Account Settings">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="COG" size="24" />
-                                             </graphic>
-                                             <HBox.margin>
-                                                <Insets bottom="70.0" left="50.0" right="50.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="POWER_OFF" size="24" />
-                                             </graphic>
-                                             <HBox.margin>
-                                                <Insets bottom="70.0" right="50.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                       </children>
-                                    </HBox>
-                                 </bottom>
-                                 <top>
-                                    <HBox prefHeight="100.0" prefWidth="503.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <JFXButton contentDisplay="TOP" onAction="#scheduleRiderButtonPushed" prefHeight="64.0" prefWidth="172.0" text="Schedule A Pickup">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="CAR" size="24" />
-                                             </graphic>
-                                             <HBox.margin>
-                                                <Insets left="50.0" right="50.0" top="70.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton prefHeight="64.0" prefWidth="172.0" text="Forum">
-                                             <HBox.margin>
-                                                <Insets right="50.0" top="70.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                       </children>
-                                    </HBox>
-                                 </top>
-                              </BorderPane>
+                              <JFXDatePicker defaultColor="#ffff8d" layoutX="54.0" layoutY="139.0" promptText="mm/dd/yyyy" stylesheets="@../resources/dark.css" />
+                              <Label layoutX="54.0" layoutY="71.0" prefHeight="68.0" prefWidth="235.0" text="Schedule Your Pickup Day" textFill="#ffff8d">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="54.0" layoutY="206.0" prefHeight="68.0" prefWidth="235.0" text="Schedule Your Pickup Time" textFill="#ffff8d">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <JFXTimePicker defaultColor="#ffff8d" layoutX="54.0" layoutY="274.0" overLay="true" promptText="hh/mm (AM/PM)" />
+                              <JFXButton layoutX="76.0" layoutY="349.0" prefHeight="68.0" prefWidth="172.0" text="Schedule" />
                            </children>
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Driver">
+                  <Tab text="Drive">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <BorderPane layoutY="1.0" prefHeight="457.0" prefWidth="509.0">
-                                 <bottom>
-                                    <HBox prefHeight="94.0" prefWidth="509.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <JFXButton contentDisplay="TOP" onAction="#accountSettingsButtonPushed" prefHeight="64.0" prefWidth="172.0" text="Account Settings">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="COG" size="24" />
-                                             </graphic>
-                                             <HBox.margin>
-                                                <Insets bottom="70.0" left="50.0" right="50.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="POWER_OFF" size="24" />
-                                             </graphic>
-                                             <HBox.margin>
-                                                <Insets bottom="70.0" right="50.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                       </children>
-                                    </HBox>
-                                 </bottom>
-                                 <top>
-                                    <HBox prefHeight="100.0" prefWidth="509.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Pickup Rider">
-                                             <graphic>
-                                                <FontAwesomeIconView glyphName="CAR" size="24" />
-                                             </graphic>
-                                             <HBox.margin>
-                                                <Insets left="50.0" right="50.0" top="70.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton prefHeight="64.0" prefWidth="172.0" text="Forum">
-                                             <HBox.margin>
-                                                <Insets right="50.0" top="70.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                       </children>
-                                    </HBox>
-                                 </top>
-                              </BorderPane>
-                           </children></AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="308.0" />
                     </content>
                   </Tab>
                </tabs>
@@ -134,6 +61,30 @@
                 </Menu>
               </menus>
             </MenuBar>
+            <VBox layoutX="2.0" layoutY="289.0" prefHeight="202.0" prefWidth="173.0">
+               <children>
+                  <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Forum">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="COMMENTS_ALT" size="24" text="" />
+                     </graphic></JFXButton>
+                  <JFXButton contentDisplay="TOP" onAction="#accountSettingsButtonPushed" prefHeight="68.0" prefWidth="172.0" text="Account Settings">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="COG" size="24" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="POWER_OFF" size="24" />
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <Label layoutX="14.0" layoutY="52.0" prefHeight="49.0" prefWidth="39.0" text="User:" textFill="#ffff8d">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="userLabel" layoutX="34.0" layoutY="124.0" prefHeight="17.0" prefWidth="127.0" text="dsfsdf" textFill="#ffff8d" />
          </children>
       </AnchorPane>
    </children>

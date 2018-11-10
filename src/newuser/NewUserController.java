@@ -3,6 +3,7 @@
  * Author: Ryan McGuire
  * Date: 10/25/2018
  * Contains the controller for the NewUser scene.
+ * Last edited by Ryan McGurie 10/30/2018
  *
  *******************************************/
 
@@ -52,18 +53,29 @@ public class NewUserController {
     Boolean resultEmail = emailValidator.Validate(email.getText());
     System.out.println(resultEmail);
 
+
     //if password has one number, one number,is between 6-20 characters long and both
     // pass word fields are the same and usr name is between 6-20 characters long.
     if (resultPassword && password.equals(password2) && resultUserName && resultEmail) {
 
-      addUser();
+      boolean userExist = addUser();
 
-      Stage stage = main.MainLogin.getPrimaryStage();
+      if (userExist) {
 
-      Parent newUserParent = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
+        Stage stage = main.MainLogin.getPrimaryStage();
 
-      stage.setScene(new Scene(newUserParent));
-      stage.show();
+        Parent newUserParent = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
+
+        stage.setScene(new Scene(newUserParent));
+        stage.show();
+      }
+      else {
+
+        username.getStyleClass().add("wrong-credentials");
+
+        Validator.ErrorBox("Username Exist", "The Username all ready"
+            + "exist, please re enter a Username");
+      }
     }
     else {
 
@@ -114,9 +126,10 @@ public class NewUserController {
   public void passwordTextField(ActionEvent actionEvent) {
   }
 
-  private void addUser() {
+  private boolean addUser() {
 
     Connection connection = null;
+    Boolean userNameExist = false;
 
     try {
 
@@ -135,6 +148,7 @@ public class NewUserController {
       statement.setBoolean(4, false);
 
       statement.execute();
+      userNameExist = true;
       statement.close();
       connection.close();
 
@@ -142,5 +156,7 @@ public class NewUserController {
 
       System.out.println(e);
     }
+
+    return userNameExist;
   }
 }

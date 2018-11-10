@@ -23,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.MainMenuController;
 import sun.net.TelnetInputStream;
 
 public class LoginController {
@@ -31,31 +32,36 @@ public class LoginController {
 
   @FXML private JFXPasswordField password;
 
+
   /**
-   * When this method is called the scene will change to the Main menu scene if username and password is correct.
+   * When this method is called the scene will change to the Main menu scene if username and
+   * password is correct.
    ***/
   public void signInButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
 
     //If username and password is correct.
     if (isValid()) {
+
+
       Stage stage = main.MainLogin.getPrimaryStage();
 
       Parent signInParent = FXMLLoader.load(getClass().getResource("/main/MainMenu.fxml"));
 
       stage.setScene(new Scene(signInParent));
+
       stage.show();
     }
   }
 
   public void newUserButtonPushed(ActionEvent actionEvent) throws IOException {
 
-    Stage stage = main.MainLogin.getPrimaryStage();
 
     Parent newMemberParent = FXMLLoader.load(getClass().getResource("/newuser/NewUser.fxml"));
 
     stage.setScene(new Scene(newMemberParent));
     stage.show();
   }
+    Stage stage = main.MainLogin.getPrimaryStage();
 
   /**
    * Searches database for username and password and compares it against the textfield and password field.
@@ -72,7 +78,7 @@ public class LoginController {
 
       final String databaseURL = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
-      //connection.setAutoCommit(false);
+
       System.out.println("connected to database");
 
       statement = connection.createStatement();
@@ -85,17 +91,25 @@ public class LoginController {
         if (resultSet.getString("USERNAME") != null &&
             resultSet.getString("PASSWORD") != null) {
 
-          String user = resultSet.getString("USERNAME");
-          System.out.println("USERNAME = " + user);
-
-          String pswd = resultSet.getString("PASSWORD");
-          System.out.println("PASSWORD = " + pswd);
-
-          String email = resultSet.getString("EMAIL");
-          System.out.println("EMAIL = " + email);
-
+          //true if user a driver false if they are a rider
           Boolean ifDriver = resultSet.getBoolean("DRIVER");
-          System.out.println("ARE THEY A DRIVER = " + ifDriver);
+
+          //true if user is a driver user.
+          if(ifDriver){
+
+            //gets username from database and sets in the driver type.
+            String userName = resultSet.getString("USERNAME");
+
+            //gets password from database and sets in the driver type.
+            String password = resultSet.getString("PASSWORD");
+
+            //gets email from the database and sets in the driver type.
+            String email = resultSet.getString("EMAIL");
+
+            users.Driver userDriver = new users.Driver(userName, password, email);
+            main.MainMenuController user = new main.MainMenuController();
+            user.setUserDriver(userDriver);
+          }
 
           validation = true;
         }
@@ -103,10 +117,14 @@ public class LoginController {
 
       resultSet.close();
       statement.close();
-      connection.close();
+
     } catch (Exception e ) {
 
       System.out.println(e);
+    }
+    finally {
+
+      connection.close();
     }
 
     return validation;

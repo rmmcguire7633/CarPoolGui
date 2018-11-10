@@ -6,9 +6,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class MainMenuController {
+
+  private users.Driver userDriver;
+
+  @FXML private Label userLabel;
+
+  public void initialize() {
+
+    userLabel.setText(userDriver.getUserName());
+  }
 
 
   public void backMenuPushed(ActionEvent actionEvent) throws IOException {
@@ -39,4 +49,8 @@ public class MainMenuController {
     stage.show();
   }
 
+  public void setUserDriver (users.Driver user) {
+
+    this.userDriver = user;
+  }
 }

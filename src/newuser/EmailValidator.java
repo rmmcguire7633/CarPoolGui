@@ -9,7 +9,7 @@ public class EmailValidator implements Validator {
   private Matcher matcher;
 
   /**
-   * must have @ symbol.
+   * must be a valid email address.
    * */
   private static final String EMAIL_FORMAT= "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
       + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"
