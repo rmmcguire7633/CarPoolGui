@@ -1,7 +1,7 @@
 # CarPoolGui
 
 A Java FX application that allows users to find a car ride to a location.
-The apllication also allows for drivers to be registered and schedule to provide a car ride for rider users.
+The application also allows for drivers to be registered and schedule to provide a car ride for rider users.
 Allows drivers to receive payment, and allows riders to provide payment, for driving a rider user to the rider's desired location.
 
 
