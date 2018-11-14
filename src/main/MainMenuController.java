@@ -8,15 +8,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import login.LoginController;
 
 public class MainMenuController {
 
-  private users.Driver userDriver;
-
   @FXML private Label userLabel;
+
+  private users.Driver userDriver;
 
   public void initialize() {
 
+    userDriver = new login.LoginController().getUserDriver();
     userLabel.setText(userDriver.getUserName());
   }
 
@@ -47,10 +49,5 @@ public class MainMenuController {
         "/accountsettings/AccountSettings.fxml" ) );
     stage.setScene( new Scene(settingsParent) );
     stage.show();
-  }
-
-  public void setUserDriver (users.Driver user) {
-
-    this.userDriver = user;
   }
 }

@@ -32,6 +32,8 @@ public class LoginController {
 
   @FXML private JFXPasswordField password;
 
+  private static users.Driver userDriver;
+
 
   /**
    * When this method is called the scene will change to the Main menu scene if username and
@@ -94,6 +96,7 @@ public class LoginController {
           //true if user a driver false if they are a rider
           Boolean ifDriver = resultSet.getBoolean("DRIVER");
 
+          System.out.println(ifDriver);
           //true if user is a driver user.
           if(ifDriver){
 
@@ -106,9 +109,11 @@ public class LoginController {
             //gets email from the database and sets in the driver type.
             String email = resultSet.getString("EMAIL");
 
-            users.Driver userDriver = new users.Driver(userName, password, email);
-            main.MainMenuController user = new main.MainMenuController();
-            user.setUserDriver(userDriver);
+            //gets id from the database and sets in the driver type.
+            int userId = resultSet.getInt("USERID");
+
+            userDriver = new users.Driver(userId, userName, password, email);
+            setUserDriver(userDriver);
           }
 
           validation = true;
@@ -128,5 +133,19 @@ public class LoginController {
     }
 
     return validation;
+  }
+
+  /**
+   * Initializes the user.Driver type.
+   * @param userDriver the type to be initialize.
+   * **/
+  public void setUserDriver (users.Driver userDriver){
+
+    this.userDriver = userDriver;
+  }
+
+  public users.Driver getUserDriver(){
+
+    return userDriver;
   }
 }

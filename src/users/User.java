@@ -46,4 +46,12 @@ public class User {
 
     this.userName = userName;
   }
+
+  public int getUserID() {
+    return UserID;
+  }
+
+  public void setUserID(int userID) {
+    UserID = userID;
+  }
 }

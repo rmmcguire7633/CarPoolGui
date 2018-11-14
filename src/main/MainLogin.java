@@ -24,7 +24,7 @@ public class MainLogin extends Application {
         setPrimaryStage(primaryStage);
 
         Parent root = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
-        primaryStage.setTitle("Carpool Sign In");
+        primaryStage.setTitle("FGCU Carpool App");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
