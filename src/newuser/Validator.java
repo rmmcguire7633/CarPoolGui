@@ -1,9 +1,12 @@
 package newuser;
 
+import com.jfoenix.controls.JFXButton;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 
 public interface Validator {
@@ -26,6 +29,34 @@ public interface Validator {
     alert.setTitle(errorMessageTitle);
     alert.setHeaderText(null);
     alert.setContentText(errorMessageText);
+    alert.showAndWait();
+  }
+
+  static boolean ConfirmationBox(String confirmationTitle, String confirmationMessageText) {
+
+    boolean userConfirmed = false;
+
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle(confirmationTitle);
+    alert.setHeaderText(null);
+    alert.setContentText(confirmationMessageText);
+
+    Optional<ButtonType> action = alert.showAndWait();
+
+    if (action.get() == ButtonType.OK) {
+
+      userConfirmed = true;
+    }
+
+    return userConfirmed;
+  }
+
+  static void SuccessfulBox (String successTitle, String successMessage) {
+
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle(successTitle);
+    alert.setHeaderText(null);
+    alert.setContentText(successMessage);
     alert.showAndWait();
   }
 }

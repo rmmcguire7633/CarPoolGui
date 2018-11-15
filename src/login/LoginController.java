@@ -96,7 +96,6 @@ public class LoginController {
           //true if user a driver false if they are a rider
           Boolean ifDriver = resultSet.getBoolean("DRIVER");
 
-          System.out.println(ifDriver);
           //true if user is a driver user.
           if(ifDriver){
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -18,10 +17,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="519.0" stylesheets="@../resources/dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accountsettings.AccountSettingsController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="582.0" stylesheets="@../resources/dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accountsettings.AccountSettingsController">
   <children>
-    <JFXDrawer />
-    <AnchorPane prefHeight="473.0" prefWidth="519.0">
+    <JFXDrawer prefHeight="507.0" prefWidth="615.0" />
+    <AnchorPane prefHeight="459.0" prefWidth="582.0">
       <children>
         <MenuBar layoutY="2.0">
           <menus>
@@ -33,42 +32,43 @@
             </Menu>
           </menus>
         </MenuBar>
-            <Pane layoutY="24.0" prefHeight="456.0" prefWidth="519.0">
+            <Pane layoutX="-1.0" layoutY="24.0" prefHeight="457.0" prefWidth="582.0">
                <children>
                   <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@avatar-1577909_960_720.png" />
                      </image>
                   </ImageView>
-                  <Text layoutX="197.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Account Settings" textAlignment="CENTER" wrappingWidth="150.00000709295273" />
+                  <Text layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Account Settings" textAlignment="CENTER" wrappingWidth="582.0000097751617" />
                   <JFXButton layoutX="41.0" layoutY="404.0" onAction="#mainMenuButtonPushed" text="Main Menu" />
-                  <JFXButton layoutX="30.0" layoutY="215.0" onAction="#changeImageButtonPushed" text="Change Image" />
-                  <JFXTextField fx:id="changedUsername" labelFloat="true" layoutX="238.0" layoutY="70.0" prefHeight="33.0" prefWidth="259.0" promptText="Change Username">
+                  <JFXButton layoutX="27.0" layoutY="220.0" onAction="#changeImageButtonPushed" text="Change Image" />
+                  <JFXTextField fx:id="username" labelFloat="true" layoutX="238.0" layoutY="70.0" prefHeight="37.0" prefWidth="203.0" promptText="Change Username">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField fx:id="changedEmail" labelFloat="true" layoutX="238.0" layoutY="130.0" prefHeight="33.0" prefWidth="259.0" promptText="Change e-mail Address">
+                  <JFXTextField fx:id="email" labelFloat="true" layoutX="238.0" layoutY="160.0" prefHeight="37.0" prefWidth="203.0" promptText="Change e-mail Address">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="changedpswd" labelFloat="true" layoutX="238.0" layoutY="190.0" prefHeight="34.0" prefWidth="259.0" promptText="Change Password">
+                  <JFXPasswordField fx:id="pswd2" labelFloat="true" layoutX="238.0" layoutY="340.0" prefHeight="37.0" prefWidth="203.0" promptText="Confirm Password Change">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXPasswordField fx:id="confirmChangePswd" labelFloat="true" layoutX="238.0" layoutY="250.0" prefHeight="34.0" prefWidth="259.0" promptText="Confirm Password Change">
+                  <JFXPasswordField fx:id="pswd" labelFloat="true" layoutX="238.0" layoutY="250.0" prefHeight="37.0" prefWidth="203.0" promptText="Change Password">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </JFXPasswordField>
                   <FontAwesomeIconView glyphName="USER" layoutX="209.0" layoutY="100.0" size="25" />
-                  <OctIconView glyphName="MAIL" layoutX="209.0" layoutY="160.0" size="25" />
-                  <FontAwesomeIconView glyphName="KEY" layoutX="209.0" layoutY="220.0" size="25" />
+                  <OctIconView glyphName="MAIL" layoutX="209.0" layoutY="190.0" size="25" />
                   <FontAwesomeIconView glyphName="KEY" layoutX="209.0" layoutY="280.0" size="25" />
-                  <JFXCheckBox checkedColor="#ffff8d" layoutX="287.0" layoutY="318.0" text="Not A Robot" textFill="#b2b2b2" />
-                  <JFXButton fx:id="changeButton" layoutX="296.0" layoutY="365.0" onAction="#changeButtonPushed" text="Change" />
+                  <FontAwesomeIconView glyphName="KEY" layoutX="209.0" layoutY="370.0" size="25" />
+                  <JFXButton layoutX="451.0" layoutY="40.0" onAction="#changeUsernameButton" prefHeight="65.0" prefWidth="117.0" text="Change&#10;Username" textAlignment="CENTER" />
+                  <JFXButton layoutX="451.0" layoutY="130.0" onAction="#changeEmailButton" prefHeight="65.0" prefWidth="117.0" text="Change&#10;Email" textAlignment="CENTER" />
+                  <JFXButton layoutX="451.0" layoutY="300.0" onAction="#changePasswordButton" prefHeight="65.0" prefWidth="117.0" text="Change&#10;Password" textAlignment="CENTER" />
                </children>
             </Pane>
       </children>
