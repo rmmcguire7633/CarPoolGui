@@ -12,6 +12,10 @@ package main;
 
 import com.jfoenix.controls.JFXComboBox;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,7 +53,7 @@ public class MainMenuController {
   /**
    * When scene starts, username will be in a label along with their rating.
    * **/
-  public void initialize() {
+  public void initialize() throws SQLException {
 
     user = new login.LoginController().getUser();
     userLabel.setText(user.getUserName());
@@ -86,16 +90,28 @@ public class MainMenuController {
     stage.show();
   }
 
-  public ObservableList<users.User> getRiderInfo () {
+  public ObservableList<users.User> getRiderInfo () throws SQLException {
 
     ObservableList<users.User> scheduleInfo = FXCollections.observableArrayList();
     scheduleInfo.add(new users.User("John","start","end","11/15/2018","8:00 P.M"));
     scheduleInfo.add(new users.User("Ryan", "start", "end" , "11/30/2018", "10:00A.M"));
 
+//    Connection connection = null;
+//
+//    try {
+//
+//      final String databaseURL = "jdbc:derby:C:lib\\carpool";
+//      connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
+//
+//      String query = "SELECT * FROM USERINFO";
+//
+//      ResultSet resultSet = connection.e
+//    }
+
     return scheduleInfo;
   }
 
-  public void showTable () {
+  public void showTable () throws SQLException {
 
     usernameCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
     locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
