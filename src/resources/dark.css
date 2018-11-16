@@ -41,13 +41,16 @@
   -fx-text-fill: derive(-fx-secondary, 20%);
 }
 .combo-box {
-  -fx-text-fill: -fx-primarytext;
+  -fx-background-color: -fx-primary;
+  -fx-text-fill: -fx-secondary;
   -fx-font-size : 12pt;
   -jfx-focus-color: -fx-secondary;
   -fx-text-fill: derive(-fx-secondary, 20%);
 }
-/*Login Screen Specific*/
 
+.combo-box .cell:selected {
+  -fx-text-fill: -fx-secondary;
+}
 
 .wrong-credentials
 {

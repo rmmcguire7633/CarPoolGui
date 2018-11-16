@@ -11,12 +11,7 @@
 package accountsettings;
 
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.skins.JFXTextAreaSkin;
-import com.sun.xml.internal.bind.v2.model.core.ID;
-import java.awt.TextComponent;
-import java.awt.TextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +19,6 @@ import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
@@ -34,8 +27,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,7 +34,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import newuser.EmailValidator;
-import newuser.NewUserController;
 import newuser.PasswordValidator;
 import newuser.UserNameValidator;
 import newuser.Validator;
@@ -69,9 +59,12 @@ public class AccountSettingsController {
    * **/
   public void initialize() {
 
-    user = new login.LoginController().getUserDriver();
+    user = new login.LoginController().getUser();
   }
 
+  /**
+   * When this button is pushed, the scene will change to the MainMenu.fxml.
+   * **/
   public void backMenuPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();

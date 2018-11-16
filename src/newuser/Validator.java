@@ -1,3 +1,12 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire
+ * Date: 10/28/2018
+ * Provides the template for comparing user input to correct format. - Ryan 10/28/2018.
+ * Contains all methods for creating alert boxes both confirmation and error. -Ryan 11/15/2018.
+ *
+ *******************************************/
+
 package newuser;
 
 import com.jfoenix.controls.JFXButton;

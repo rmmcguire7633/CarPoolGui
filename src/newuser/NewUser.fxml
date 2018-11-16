@@ -34,11 +34,11 @@
     <FontAwesomeIconView glyphName="USER_PLUS" layoutX="169.0" layoutY="74.0" size="55" />
     <FontAwesomeIconView glyphName="USER" layoutX="64.0" layoutY="149.0" size="25" />
     <FontAwesomeIconView glyphName="KEY" layoutX="64.0" layoutY="265.0" size="25" />
-    <JFXButton defaultButton="true" layoutX="45.0" layoutY="391.0" onAction="#createNewUserButtonPushed" prefHeight="40.0" prefWidth="155.0" styleClass="login-button" text="Create New User" />
-    <JFXButton layoutX="225.0" layoutY="391.0" onAction="#cancelButtonPushed" prefHeight="40.0" prefWidth="102.0" styleClass="login-button" text="Cancel" />
+    <JFXButton defaultButton="true" layoutX="64.0" layoutY="391.0" onAction="#createNewUserButtonPushed" prefHeight="40.0" prefWidth="155.0" styleClass="login-button" text="Create New User" />
+    <JFXButton layoutX="252.0" layoutY="391.0" onAction="#cancelButtonPushed" prefHeight="40.0" prefWidth="102.0" styleClass="login-button" text="Cancel" />
 
       <FontAwesomeIconView glyphName="KEY" layoutX="64.0" layoutY="323.0" size="25" />
       <OctIconView glyphName="MAIL" layoutX="64.0" layoutY="210.0" size="25" />
-      <JFXCheckBox checkedColor="#ffff8d" layoutX="155.0" layoutY="455.0" text="Not a Robot" textFill="#b2b2b2" />
+      <JFXCheckBox fx:id="notARobot" checkedColor="#ffff8d" layoutX="149.0" layoutY="459.0" prefHeight="18.0" prefWidth="102.0" text="Not a Robot" textFill="#b2b2b2" />
   </children>
 </AnchorPane>

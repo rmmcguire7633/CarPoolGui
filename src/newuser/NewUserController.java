@@ -3,8 +3,12 @@
  * Author: Ryan McGuire
  * Date: 10/25/2018
  * Contains the controller for the NewUser scene.
+ * This class creates a new row into the USERINFO table from the input provided by the user.
  * Edited by Ryan McGurie 10/30/2018 - created database functionality.
- * Edited by Ryan MCGuire 11/14/2018 - added validation method to check user input.
+ * Edited by Ryan McGuire 11/14/2018 - added validation method to make sure user has correct format before
+ * placing information into database.
+ * Edited by Ryan McGuire 11/15/2018 - added alert box informing the user of a successful and unsuccessful
+ * input.
  *
  *******************************************/
 
@@ -55,7 +59,8 @@ public class NewUserController implements DataBaseHandler {
     //returns true if email address in the correct format.
     Boolean resultEmail = emailValidator.Validate(email.getText());
 
-    users.Rider userRider = new users.Rider(username.getText(), pswd.getText(), email.getText());
+    users.User userRider = new users.User(username.getText(), pswd.getText(), email.getText(),
+        false, 3);
 
     checkValidation(resultUserName, resultEmail, resultPassword, password2,
         new NewUserController(), userRider);
@@ -141,6 +146,8 @@ public class NewUserController implements DataBaseHandler {
       boolean userDoesNotExist = checkDataBase.checkDatabase(user);
 
       if (userDoesNotExist) {
+
+        Validator.SuccessfulBox("Success!", "User Successfully Created!");
 
         Stage stage = main.MainLogin.getPrimaryStage();
 

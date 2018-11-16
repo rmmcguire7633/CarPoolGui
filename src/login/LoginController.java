@@ -10,7 +10,6 @@ package login;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import java.awt.TextField;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,8 +22,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.MainMenuController;
-import sun.net.TelnetInputStream;
 
 public class LoginController {
 
@@ -32,7 +29,7 @@ public class LoginController {
 
   @FXML private JFXPasswordField password;
 
-  private static users.Driver userDriver;
+  private static users.User user;
 
 
   /**
@@ -67,7 +64,7 @@ public class LoginController {
 
   /**
    * Searches database for username and password and compares it against the textfield and password field.
-   * @return true if username and password match the textfield.
+   * @return true if username and password from the database match the textfield.
    * */
   private boolean isValid() throws SQLException {
 
@@ -93,27 +90,28 @@ public class LoginController {
         if (resultSet.getString("USERNAME") != null &&
             resultSet.getString("PASSWORD") != null) {
 
-          //true if user a driver false if they are a rider
-          Boolean ifDriver = resultSet.getBoolean("DRIVER");
 
-          //true if user is a driver user.
-          if(ifDriver){
 
-            //gets username from database and sets in the driver type.
-            String userName = resultSet.getString("USERNAME");
+          //gets username from database and sets in the driver type.
+          String userName = resultSet.getString("USERNAME");
 
-            //gets password from database and sets in the driver type.
-            String password = resultSet.getString("PASSWORD");
+          //gets password from database and sets in the driver type.
+          String password = resultSet.getString("PASSWORD");
 
-            //gets email from the database and sets in the driver type.
-            String email = resultSet.getString("EMAIL");
+          //gets email from the database and sets in the driver type.
+          String email = resultSet.getString("EMAIL");
 
-            //gets id from the database and sets in the driver type.
-            int userId = resultSet.getInt("USERID");
+          //gets id from the database and sets in the driver type.
+          int userId = resultSet.getInt("USERID");
 
-            userDriver = new users.Driver(userId, userName, password, email);
-            setUserDriver(userDriver);
-          }
+          //ses if the user is a driver.
+          boolean isADriver = resultSet.getBoolean("DRIVER");
+
+          //gets rating of the user form the database.
+          Double rating = resultSet.getDouble("RATING");
+
+          user = new users.User(userId, userName, password, email, isADriver, rating);
+          setUser(user);
 
           validation = true;
         }
@@ -136,15 +134,15 @@ public class LoginController {
 
   /**
    * Initializes the user.Driver type.
-   * @param userDriver the type to be initialize.
+   * @param user the type to be initialize.
    * **/
-  public void setUserDriver (users.Driver userDriver){
+  public void setUser(users.User user){
 
-    this.userDriver = userDriver;
+    this.user = user;
   }
 
-  public users.Driver getUserDriver(){
+  public users.User getUser(){
 
-    return userDriver;
+    return user;
   }
 }

@@ -1,3 +1,12 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire
+ * Date: 10/30/2018
+ * Holds the reg ex (correct format) for the username field.
+ * Compares user input with correct format.
+ *
+ *******************************************/
+
 package newuser;
 
 import java.util.regex.Matcher;
