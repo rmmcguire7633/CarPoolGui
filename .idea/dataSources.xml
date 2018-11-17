@@ -8,13 +8,6 @@
       <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
       <jdbc-url>jdbc:derby://localhost:1527/</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="C:\Users\sketc\IdeaProjects\CarPoolGui\lib\carpool" uuid="579bdd5f-37ad-4a80-bb01-d741910f84c5">
-      <driver-ref>derby.remote</driver-ref>
-      <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
-      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
-      <jdbc-url>C:\Users\sketc\IdeaProjects\CarPoolGui\lib\carpool</jdbc-url>
-    </data-source>
     <data-source source="LOCAL" name="carpool" uuid="fcbc1ae4-fe88-490c-a4db-20b0dd41ddba">
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>

@@ -58,9 +58,6 @@
   -jfx-focus-color: -fx-red;
 }
 
-/*Main Screen CSS Styling starts here*/
-
-/*TablePane styling*/
 .tab{
   -fx-background-color: -fx-primary;
 }
@@ -105,17 +102,6 @@
 .context-menu
 {
   -fx-background-color:  derive(-fx-primary, 20%);
-}
-
-/*Hamburger Styling*/
-.jfx-hamburger-icon{
-  -fx-spacing: 7;
-}
-
-.jfx-hamburger-icon StackPane
-{
-  -fx-background-color: -fx-secondary;
-  -fx-background-radius: 5px;
 }
 
 /*Toolbar buttons*/
@@ -166,29 +152,6 @@
 .jfx-layout-actions
 {
   -fx-hgap:8;
-}
-
-/*Chart Styling*/
-.data0.chart-pie{
-  -fx-pie-color: -fx-secondary;
-  -fx-border-color: derive(-fx-secondary, -30%);
-}
-.data1.chart-pie{
-  -fx-pie-color: derive(-fx-primary, 30%);
-  -fx-border-color: derive(-fx-primary, 30%);
-}
-.chart-pie-label
-{
-  -fx-fill : derive(-fx-secondary, -5%);
-}
-
-/*About window*/
-.about-text{
-  -fx-fill: -fx-secondary;
-}
-
-.about-button{
-  -fx-border-color: transparent;
 }
 
 /*Custom window background*/
@@ -293,15 +256,6 @@
   -fx-padding: 20px 0 0 0;
 }
 
-
-/*Dashboard label*/
-.not-available
-{
-  -fx-background-radius: 5px;
-  -fx-fill: derive(blue, 80%);
-  -fx-cursor: hand;
-}
-
 /*Checkbox*/
 
 .checkbox-main{
@@ -310,21 +264,3 @@
   -fx-font-size: 10pt;
 }
 
-/*Progrss bar*/
-
-.progress-bar-main .track{
-  -fx-background-color: -fx-primary;
-}
-.progress-bar-main .bar{
-  -fx-background-color: -fx-secondary;
-  -fx-padding: 5px;
-}
-
-.common-label{
-  -fx-background-color: transparent;
-  -fx-text-fill: -fx-secondary;
-  -fx-font-size: 12pt;
-}
-.myDialog{
-  -fx-background-color: #2A2E37;
-}
