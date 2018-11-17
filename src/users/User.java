@@ -1,8 +1,11 @@
 package users;
 
+import java.sql.Time;
+import java.util.Date;
+
 public class User {
 
-  private int UserID;
+  private int userId;
   private String userName;
   private String password;
   private String email;
@@ -10,10 +13,19 @@ public class User {
   private double rating;
   private String location;
   private String destination;
-  private String day;
-  private String time;
+  private Date day;
+  private Time time;
 
-  public User (String username, String location, String destination, String day, String time) {
+  /**
+   * This constructor is used for passing the fields to the USERINFO table
+   * from main.MainMenuContoller class.
+   * @param username the username of the user.
+   * @param location the location for them to be picked up.
+   * @param destination the drop off location for the user.
+   * @param day the day the user would like to bne picked up.
+   * @param time the time the user would like to be picked up.
+   **/
+  public User(String username, String location, String destination, Date day, Time time) {
 
     this.userName = username;
     this.location = location;
@@ -21,7 +33,17 @@ public class User {
     this.day = day;
     this.time = time;
   }
-  public User (String username, String password, String email, boolean isADriver,
+
+  /**
+   * This constructor is used for passing the fields to the USERINFO table
+   * from the newuser.NewUserController class.
+   * @param username the username of the user.
+   * @param password the password of the user.
+   * @param email the email of the user.
+   * @param isADriver true if user is also a driver.
+   * @param rating the 5 star rating of the user.
+   **/
+  public User(String username, String password, String email, boolean isADriver,
       double rating) {
 
     this.userName = username;
@@ -31,10 +53,20 @@ public class User {
     this.rating = rating;
   }
 
-  public User (int userID, String username, String password, String email, boolean isADriver,
+  /**
+   * This constructor is used for passing the fields to the USERINFO table
+   * from the login.LoginController class.
+   * @param userId the user's ID.
+   * @param username the username of the user.
+   * @param password the password of the user.
+   * @param email the email of the user.
+   * @param isADriver true if the user is also a driver.
+   * @param rating the 5 star rating of the user.
+   **/
+  public User(int userId, String username, String password, String email, boolean isADriver,
       double rating) {
 
-    this.UserID = userID;
+    this.userId = userId;
     this.userName = username;
     this.password = password;
     this.email = email;
@@ -76,9 +108,9 @@ public class User {
     return isADriver;
   }
 
-  public void setADriver(boolean ADriver) {
+  public void setADriver(boolean isADriver) {
 
-    isADriver = ADriver;
+    this.isADriver = isADriver;
   }
 
   public String getUserName() {
@@ -91,12 +123,12 @@ public class User {
     this.userName = userName;
   }
 
-  public int getUserID() {
-    return UserID;
+  public int getUserId() {
+    return userId;
   }
 
-  public void setUserID(int userID) {
-    UserID = userID;
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 
   public String getLocation() {
@@ -115,19 +147,19 @@ public class User {
     this.destination = destination;
   }
 
-  public String getDay() {
+  public Date getDay() {
     return day;
   }
 
-  public void setDay(String date) {
+  public void setDay(Date date) {
     this.day = date;
   }
 
-  public String getTime() {
+  public Time getTime() {
     return time;
   }
 
-  public void setTime(String time) {
+  public void setTime(Time time) {
     this.time = time;
   }
 }

@@ -52,6 +52,9 @@ public class LoginController {
     }
   }
 
+  /**
+   * When this method is called, the scene will change to NewUser.fxml.
+   **/
   public void newUserButtonPushed(ActionEvent actionEvent) throws IOException {
 
 
@@ -60,10 +63,12 @@ public class LoginController {
     stage.setScene(new Scene(newMemberParent));
     stage.show();
   }
-    Stage stage = main.MainLogin.getPrimaryStage();
+
+  Stage stage = main.MainLogin.getPrimaryStage();
 
   /**
-   * Searches database for username and password and compares it against the textfield and password field.
+   * Searches database for username and password and compares it against
+   * the textfield and password field.
    * @return true if username and password from the database match the textfield.
    * */
   private boolean isValid() throws SQLException {
@@ -75,22 +80,20 @@ public class LoginController {
 
     try {
 
-      final String databaseURL = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
+      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
       System.out.println("connected to database");
 
       statement = connection.createStatement();
 
-      ResultSet resultSet = statement.executeQuery( "SELECT * FROM USERINFO WHERE USERNAME= "
+      ResultSet resultSet = statement.executeQuery("SELECT * FROM USERINFO WHERE USERNAME= "
           + "'" + username.getText() + "'"
           + " AND PASSWORD= " + "'" + password.getText() + "'");
 
       while (resultSet.next()) {
-        if (resultSet.getString("USERNAME") != null &&
-            resultSet.getString("PASSWORD") != null) {
-
-
+        if (resultSet.getString("USERNAME") != null
+            && resultSet.getString("PASSWORD") != null) {
 
           //gets username from database and sets in the driver type.
           String userName = resultSet.getString("USERNAME");
@@ -104,10 +107,10 @@ public class LoginController {
           //gets id from the database and sets in the driver type.
           int userId = resultSet.getInt("USERID");
 
-          //ses if the user is a driver.
+          //ses if the userInfo is a driver.
           boolean isADriver = resultSet.getBoolean("DRIVER");
 
-          //gets rating of the user form the database.
+          //gets rating of the userInfo form the database.
           Double rating = resultSet.getDouble("RATING");
 
           user = new users.User(userId, userName, password, email, isADriver, rating);
@@ -119,29 +122,26 @@ public class LoginController {
 
       resultSet.close();
       statement.close();
+      connection.close();
 
-    } catch (Exception e ) {
+    } catch (Exception e) {
 
       System.out.println(e);
-    }
-    finally {
-
-      connection.close();
     }
 
     return validation;
   }
 
   /**
-   * Initializes the user.Driver type.
-   * @param user the type to be initialize.
-   * **/
-  public void setUser(users.User user){
+   * Initializes the userInfo.Driver type.
+   * @param userInfo the type to be initialize.
+   **/
+  public static void setUser(users.User userInfo) {
 
-    this.user = user;
+    user = userInfo;
   }
 
-  public users.User getUser(){
+  public users.User getUser() {
 
     return user;
   }

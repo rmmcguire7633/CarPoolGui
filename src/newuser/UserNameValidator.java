@@ -12,7 +12,7 @@ package newuser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserNameValidator implements Validator{
+public class UserNameValidator implements Validator {
 
   private Pattern pattern;
   private Matcher matcher;
@@ -22,13 +22,13 @@ public class UserNameValidator implements Validator{
    * */
   private static final String USERNAME_FORMAT = "(.{6,20})";
 
-  public UserNameValidator (){
+  public UserNameValidator() {
 
     pattern = Pattern.compile(USERNAME_FORMAT);
   }
 
   @Override
-  public boolean Validate(final String userName) {
+  public boolean validate(final String userName) {
 
     matcher = pattern.matcher(userName);
     return matcher.matches();

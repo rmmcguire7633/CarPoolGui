@@ -5,9 +5,11 @@
  * Contains the controller for the NewUser scene.
  * This class creates a new row into the USERINFO table from the input provided by the user.
  * Edited by Ryan McGurie 10/30/2018 - created database functionality.
- * Edited by Ryan McGuire 11/14/2018 - added validation method to make sure user has correct format before
+ * Edited by Ryan McGuire 11/14/2018 - added validation method to make sure user
+ * has correct format before
  * placing information into database.
- * Edited by Ryan McGuire 11/15/2018 - added alert box informing the user of a successful and unsuccessful
+ * Edited by Ryan McGuire 11/15/2018 - added alert box informing the user
+ * of a successful and unsuccessful
  * input.
  *
  *******************************************/
@@ -25,7 +27,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class NewUserController implements DataBaseHandler {
@@ -42,22 +43,23 @@ public class NewUserController implements DataBaseHandler {
 
   /**
    * When this button is pushed, user input will be compared with valid format.
-   * If user info is in a valid format a new row will be created in the USERINFO table with information
+   * If user info is in a valid format a new row will be
+   * created in the USERINFO table with information
    * from the textfield and the scene will change to the LoginScene.fxml.
    * */
   public void createNewUserButtonPushed(ActionEvent actionEvent) throws IOException {
 
     //returns true if password is in the correct format.
-    Boolean resultPassword = passwordValidator.Validate(pswd.getText());
+    Boolean resultPassword = passwordValidator.validate(pswd.getText());
 
     //creates a string from the pswd text field.
     String password2 = pswd2.getText();
 
     //returns true if user name is in the correct format.
-    Boolean resultUserName = userNameValidator.Validate(username.getText());
+    Boolean resultUserName = userNameValidator.validate(username.getText());
 
     //returns true if email address in the correct format.
-    Boolean resultEmail = emailValidator.Validate(email.getText());
+    Boolean resultEmail = emailValidator.validate(email.getText());
 
     users.User userRider = new users.User(username.getText(), pswd.getText(), email.getText(),
         false, 3);
@@ -73,9 +75,9 @@ public class NewUserController implements DataBaseHandler {
 
     Stage stage = main.MainLogin.getPrimaryStage();
 
-    Parent cancelParent = FXMLLoader.load( getClass().getResource( "/login/LoginScene.fxml" ) );
+    Parent cancelParent = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
 
-    stage.setScene( new Scene( cancelParent ) );
+    stage.setScene(new Scene(cancelParent));
     stage.show();
   }
 
@@ -85,10 +87,11 @@ public class NewUserController implements DataBaseHandler {
   /**
    * When this method is called it will check the USERINFO table to see if the username in the text
    * field is all ready in use. If the user does not exist in the USERINFO table it will create
-   * a new row in the table with the input from pswd textfield, username textfield and email textfield.
+   * a new row in the table with the input from pswd textfield,
+   * username textfield and email textfield.
    * @param user user type with the data from the text fields.
    * @return returns true if username from textfield is not in the USERINFO table.
-   * **/
+   **/
   public boolean checkDatabase(users.User user) {
 
     Connection connection = null;
@@ -96,8 +99,8 @@ public class NewUserController implements DataBaseHandler {
 
     try {
 
-      final String databaseURL = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
+      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
       System.out.println("connected to database");
 
@@ -116,7 +119,7 @@ public class NewUserController implements DataBaseHandler {
       statement.close();
       connection.close();
 
-    } catch (Exception e ) {
+    } catch (Exception e) {
 
       System.out.println(e);
     }
@@ -129,11 +132,11 @@ public class NewUserController implements DataBaseHandler {
    * @param resultUserName result of comparing the username text field with valid input.
    * @param resultEmail result of comparing the email text field with valid input.
    * @param resultPassword result of comparing the pswd text field with valid input.
-   * @param password2 the re entered password created by the user in the pswd2 text field. Used to compare
-   * user type password.
+   * @param password2 the re entered password created by the user in the pswd2 text field,
+   Used to compare user type password.
    * @param checkDataBase method that performs database actions.
    * @param user the user type created from the text fields.
-   * **/
+   **/
   public void checkValidation(boolean resultUserName, boolean resultEmail, boolean resultPassword,
       String password2, DataBaseHandler checkDataBase, users.User user)
       throws IOException {
@@ -147,7 +150,7 @@ public class NewUserController implements DataBaseHandler {
 
       if (userDoesNotExist) {
 
-        Validator.SuccessfulBox("Success!", "User Successfully Created!");
+        Validator.successfulBox("Success!", "User Successfully Created!");
 
         Stage stage = main.MainLogin.getPrimaryStage();
 
@@ -155,46 +158,42 @@ public class NewUserController implements DataBaseHandler {
 
         stage.setScene(new Scene(newUserParent));
         stage.show();
-      }
-      else {
+      } else {
 
         username.getStyleClass().add("wrong-credentials");
 
-        Validator.ErrorBox("Username Exist", "The Username all ready"
+        Validator.errorBox("Username Exist", "The Username all ready"
             + "exist, please re enter a Username");
       }
-    }
-    else {
+    } else {
 
-      //if password does not have one number, one capitol letter or is not between 6-20 characters long.
+      //if password does not have one number, one capitol letter or is
+      // not between 6-20 characters long.
       if (resultPassword == false) {
 
         pswd.getStyleClass().add("wrong-credentials");
 
-        Validator.ErrorBox("Incorrect password format",
+        Validator.errorBox("Incorrect password format",
             "password must contain at least one capital letter, one number and be"
                 + "between 6-20 characters long");
-      }
-      else if (resultUserName == false) {
+      } else if (resultUserName == false) {
 
         username.getStyleClass().add("wrong-credentials");
 
-        Validator.ErrorBox("Incorrect user name format",
+        Validator.errorBox("Incorrect user name format",
             "user name must be between 6-20 characters long");
-      }
-      else if (resultEmail == false) {
+      } else if (resultEmail == false) {
 
         email.getStyleClass().add("wrong-credentials");
 
-        Validator.ErrorBox("Incorrect e-mail format", "email "
+        Validator.errorBox("Incorrect e-mail format", "email "
             + "address must have a @ symbol");
-      }
-      else {
+      } else {
 
         pswd.getStyleClass().add("wrong-credentials");
         pswd2.getStyleClass().add("wrong-credentials");
 
-        Validator.ErrorBox("Passwords do not match",
+        Validator.errorBox("Passwords do not match",
             "The passwords do not match, please re enter the Password");
       }
     }

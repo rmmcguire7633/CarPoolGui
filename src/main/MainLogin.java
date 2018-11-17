@@ -16,33 +16,31 @@ import javafx.stage.Stage;
 
 public class MainLogin extends Application {
 
-    private static Stage primaryStage;
+  private static Stage primaryStage;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
+  @Override
+  public void start(Stage primaryStage) throws Exception {
 
-        setPrimaryStage(primaryStage);
+    setPrimaryStage(primaryStage);
 
-        Parent root = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
-        primaryStage.setTitle("FGCU Carpool App");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-    }
+    Parent root = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
+    primaryStage.setTitle("FGCU Carpool App");
+    primaryStage.setScene(new Scene(root));
+    primaryStage.show();
+  }
 
-    private void setPrimaryStage(Stage stage) {
+  public static Stage getPrimaryStage() {
 
-        MainLogin.primaryStage = stage;
-    }
+    return primaryStage;
+  }
 
-    static public Stage getPrimaryStage() {
+  private void setPrimaryStage(Stage stage) {
 
-        return primaryStage;
-    }
+    MainLogin.primaryStage = stage;
+  }
 
+  public static void main(String[] args) throws Exception {
 
-
-    public static void main(String[] args) throws Exception {
-
-        launch(args);
-    }
+    launch(args);
+  }
 }

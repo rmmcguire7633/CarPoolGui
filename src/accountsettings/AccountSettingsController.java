@@ -4,7 +4,8 @@
  * Modified by Ryan McGuire
  * James-created scene and the functionality of being able to change picture.
  * Ryan- changed scene and added update function to the database on 11/13/2018.
- * Ryan- Added format check for text fields and alert boxes to let user know of errors and successful input.
+ * Ryan- Added format check for text fields and alert boxes to let user know of errors and
+ * successful input.
  *
  *******************************************/
 
@@ -54,8 +55,10 @@ public class AccountSettingsController {
   private users.User user;
 
   /***
+   *  <p>
    * Transfers the users.User type created in login.Logincontroller that holds all the
    * user information from the database.
+   * </p>
    * **/
   public void initialize() {
 
@@ -89,23 +92,25 @@ public class AccountSettingsController {
   }
 
   /***
+   * <p>
    * When this button is pushed, it will open the users files and allow the user to place a picture
    * inside to change the present image.
+   * </p>
    * **/
   public void changeImageButtonPushed(ActionEvent actionEvent) throws MalformedURLException {
 
     FileChooser fileChooser = new FileChooser();
     //Set extension filter
-    FileChooser.ExtensionFilter extFilterJPG =
+    FileChooser.ExtensionFilter extFilterJpg =
         new FileChooser.ExtensionFilter("JPG files (*.JPG)", "*.JPG");
     FileChooser.ExtensionFilter extFilterjpg =
         new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg");
-    FileChooser.ExtensionFilter extFilterPNG =
+    FileChooser.ExtensionFilter extFilterPng =
         new FileChooser.ExtensionFilter("PNG files (*.PNG)", "*.PNG");
     FileChooser.ExtensionFilter extFilterpng =
         new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
     fileChooser.getExtensionFilters()
-        .addAll(extFilterJPG, extFilterjpg, extFilterPNG, extFilterpng);
+        .addAll(extFilterJpg, extFilterjpg, extFilterPng, extFilterpng);
 
     //Show open file dialog
     File file = fileChooser.showOpenDialog(null);
@@ -114,19 +119,25 @@ public class AccountSettingsController {
       Image image = SwingFXUtils.toFXImage(bufferedImage, null);
       imageView.setImage(image);
     } catch (IOException ex) {
-      Logger.getLogger(AccountSettingsController.class.getName()).log( Level.SEVERE, null, ex);
+      Logger.getLogger(AccountSettingsController.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
-  public boolean updateDatabase (users.User user) {
+  /**
+   * When this method is called, the USERINFO table's USERNAME,
+   * PASSWORD and EMAIL column will be updated.
+   * @param user the person using the application.
+   * @return returns true if username is not taken.
+   **/
+  public boolean updateDatabase(users.User user) {
 
-    Connection connection = null;
+    Connection connection;
     boolean userDoesNotExist = false;
 
     try {
 
-      final String databaseURL = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection( databaseURL , "ryan", "ryan");
+      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
       String query = "UPDATE USERINFO SET USERNAME=?, PASSWORD=?, EMAIL=? WHERE USERID = ?";
 
@@ -134,7 +145,7 @@ public class AccountSettingsController {
       statement.setString(1, user.getUserName());
       statement.setString(2, user.getPassword());
       statement.setString(3, user.getEmail());
-      statement.setInt(4, user.getUserID());
+      statement.setInt(4, user.getUserId());
 
       statement.executeUpdate();
 
@@ -142,7 +153,7 @@ public class AccountSettingsController {
 
       statement.close();
       connection.close();
-    } catch (Exception e ) {
+    } catch (Exception e) {
 
       System.out.println(e);
     }
@@ -157,12 +168,12 @@ public class AccountSettingsController {
   public void changeUsernameButton(ActionEvent actionEvent) {
 
     //if user name text field is not empty.
-    if (!(username.getText().trim().isEmpty())){
+    if (!(username.getText().trim().isEmpty())) {
 
       //returns true if user name is formatted correctly.
-      Boolean resultUserName = userNameValidator.Validate(username.getText());
+      Boolean resultUserName = userNameValidator.validate(username.getText());
 
-      Boolean userPressedOk = CheckInput(resultUserName, "You Want to Change Your Username?",
+      Boolean userPressedOk = checkInput(resultUserName, "You Want to Change Your Username?",
           "Username Successfully Changed", username,
           "Incorrect user name format",
           "user name must be between 6-20 characters long");
@@ -172,10 +183,9 @@ public class AccountSettingsController {
         user.setUserName(username.getText());
         updateDatabase(user);
       }
-    }
-    else {
+    } else {
 
-      Validator.ErrorBox("Blank Field Detected", "Username Field "
+      Validator.errorBox("Blank Field Detected", "Username Field "
           + "Is  Blank,"
           + "Please Enter A Username If You Would Like To Change Your Username");
     }
@@ -188,32 +198,32 @@ public class AccountSettingsController {
   public void changeEmailButton(ActionEvent actionEvent) {
 
     //if email text field is not empty.
-    if (!(email.getText().trim().isEmpty())){
+    if (!(email.getText().trim().isEmpty())) {
 
       //returns true if email field is formatted correctly.
-      Boolean resultEmail = emailValidator.Validate(email.getText());
+      Boolean resultEmail = emailValidator.validate(email.getText());
 
-      Boolean userPressedOK = CheckInput(resultEmail, "You Want to Change Your Email?",
+      Boolean userPressedOk = checkInput(resultEmail, "You Want to Change Your Email?",
           "Email Successfully Changed", email,
           "Incorrect e-mail format", "Must Be A Valid Email Address");
 
-      if(userPressedOK) {
+      if (userPressedOk) {
 
         user.setEmail(email.getText());
         updateDatabase(user);
       }
-    }
-    else {
+    } else {
 
-      Validator.ErrorBox("Blank Field Detected",
+      Validator.errorBox("Blank Field Detected",
           "Email Field Is Blank, Please Enter An Email Address If You Would Like"
               + "To Change Your Email Address");
     }
   }
 
-  /***
+  /**
    * When this button is pushed, the pswd field is checked for correct format and if equals pswd2.
-   * If pswd field is in correct format and equals pswd2, will allow user to update password in USERINFO table;
+   * If pswd field is in correct format and equals pswd2, will allow
+   * user to update password in USERINFO table.
    * **/
   public void changePasswordButton(ActionEvent actionEvent) {
 
@@ -221,34 +231,33 @@ public class AccountSettingsController {
     if (!(pswd.getText().trim().isEmpty()) && pswd.getText().equals(pswd2.getText())) {
 
       //returns true if email field is formatted correctly.
-      Boolean resultPassword = passwordValidator.Validate(pswd.getText());
+      Boolean resultPassword = passwordValidator.validate(pswd.getText());
 
-      Boolean userPressedOK = CheckInput(resultPassword, "You Want to Change Your Password?",
+      Boolean userPressedok = checkInput(resultPassword, "You Want to Change Your Password?",
           "Password Successfully Changed", pswd,
           "Incorrect Password Format", "password must "
-              + "contain at least one capital letter, one number and be between 6-20 characters long");
+              + "contain at least one capital letter, one number "
+              + "and be between 6-20 characters long");
 
-      if (userPressedOK) {
+      if (userPressedok) {
 
         user.setPassword(pswd.getText());
         updateDatabase(user);
       }
-    }
     //if pswd field is empty.
-    else if (pswd.getText().trim().isEmpty()) {
+    } else if (pswd.getText().trim().isEmpty()) {
 
-      Validator.ErrorBox("Blank Field Detected",
+      Validator.errorBox("Blank Field Detected",
           "Password Field Is Blank, Please Enter A Password If You Would Like"
               + "To Change Your Password");
-    }
-    else {
+    } else {
 
-      Validator.ErrorBox("Passwords Do Not Match",
+      Validator.errorBox("Passwords Do Not Match",
           "The Passwords Do Not Match, Please Re Enter The Password");
     }
   }
 
-  /***
+  /**
    * When this method is called it will populate the correct alert box according to user input.
    * @param isValid if format is correct, then = true.
    * @param message that confirms if user wants to update information.
@@ -257,15 +266,15 @@ public class AccountSettingsController {
    * @param incorrectTitle title for Error box.
    * @param incorrectMessage message for the Error box.
    * @return true if user presses ok to confirm change.
-   * **/
-  private boolean CheckInput(Boolean isValid, String message, String successMessage,
+   **/
+  private boolean checkInput(Boolean isValid, String message, String successMessage,
       TextInputControl textField, String incorrectTitle, String incorrectMessage) {
 
     boolean userPressedOk = false;
 
     if (isValid) {
 
-      boolean userConfirmed = Validator.ConfirmationBox("Confirmation",
+      boolean userConfirmed = Validator.confirmationBox("Confirmation",
           "Are You Sure "
           + message);
 
@@ -274,15 +283,14 @@ public class AccountSettingsController {
 
         userPressedOk = true;
 
-        Validator.SuccessfulBox("Success!", successMessage);
+        Validator.successfulBox("Success!", successMessage);
       }
 
-    }
-    else {
+    } else {
 
       textField.getStyleClass().add("wrong-credentials");
 
-      Validator.ErrorBox(incorrectTitle,
+      Validator.errorBox(incorrectTitle,
           incorrectMessage);
     }
 

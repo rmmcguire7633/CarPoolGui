@@ -20,7 +20,7 @@ public class EmailValidator implements Validator {
   /**
    * must be a valid email address.
    * */
-  private static final String EMAIL_FORMAT= "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+  private static final String EMAIL_FORMAT = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
       + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"
       + "*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\"
       + "[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])"
@@ -30,7 +30,7 @@ public class EmailValidator implements Validator {
       + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\"
       + "[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
-  public EmailValidator(){
+  public EmailValidator() {
 
     pattern = Pattern.compile(EMAIL_FORMAT);
   }
@@ -41,7 +41,7 @@ public class EmailValidator implements Validator {
    * @return true if user input == correct format.
    */
   @Override
-  public boolean Validate(String email) {
+  public boolean validate(String email) {
 
     matcher = pattern.matcher(email);
     return matcher.matches();

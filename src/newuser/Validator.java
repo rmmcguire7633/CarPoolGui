@@ -25,14 +25,14 @@ public interface Validator {
    * @param textToBeCompared user input that is being compared.
    * @return true if user input == correct format.
    * */
-  boolean Validate(final String textToBeCompared);
+  boolean validate(final String textToBeCompared);
 
   /**
    * Displays an error box when called.
    * @param errorMessageTitle the title of the error alert box.
    * @param errorMessageText the text inside the error alert box.
    * */
-  static void ErrorBox(String errorMessageTitle, String errorMessageText) {
+  static void errorBox(String errorMessageTitle, String errorMessageText) {
 
     Alert alert = new Alert(AlertType.WARNING);
     alert.setTitle(errorMessageTitle);
@@ -41,7 +41,13 @@ public interface Validator {
     alert.showAndWait();
   }
 
-  static boolean ConfirmationBox(String confirmationTitle, String confirmationMessageText) {
+  /**
+   * When this method is called a confirmation box will pop up informing
+   * the user of an confirmation.
+   * @param confirmationTitle the title of the conformation alert box.
+   * @param confirmationMessageText the text inside the confirmation alert box.
+   **/
+  static boolean confirmationBox(String confirmationTitle, String confirmationMessageText) {
 
     boolean userConfirmed = false;
 
@@ -60,7 +66,12 @@ public interface Validator {
     return userConfirmed;
   }
 
-  static void SuccessfulBox (String successTitle, String successMessage) {
+  /**
+   * When this method is called a successful outcome is shown to the user.
+   * @param successTitle the tile of the success alert box.
+   * @param successMessage the text inside the success alert box.
+   **/
+  static void successfulBox(String successTitle, String successMessage) {
 
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.setTitle(successTitle);
