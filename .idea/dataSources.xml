@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="carpool" uuid="909180b9-37aa-46c7-81de-04473dd5e9ae">
-      <driver-ref>derby.embedded</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby:$PROJECT_DIR$/lib/carpool</jdbc-url>
-    </data-source>
     <data-source source="LOCAL" name="jdbc:derby://localhost:1527/" uuid="91161c72-87c4-4542-be00-78d840343976">
       <driver-ref>derby.remote</driver-ref>
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
       <jdbc-url>jdbc:derby://localhost:1527/</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="C:\Users\sketc\IdeaProjects\CarPoolGui\lib\carpool" uuid="579bdd5f-37ad-4a80-bb01-d741910f84c5">
+      <driver-ref>derby.remote</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
+      <jdbc-url>C:\Users\sketc\IdeaProjects\CarPoolGui\lib\carpool</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="carpool" uuid="fcbc1ae4-fe88-490c-a4db-20b0dd41ddba">
+      <driver-ref>derby.embedded</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
+      <jdbc-url>jdbc:derby:$PROJECT_DIR$/lib/carpool</jdbc-url>
     </data-source>
   </component>
 </project>
