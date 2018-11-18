@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../resources/dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label alignment="CENTER" layoutX="-1.0" layoutY="28.0" prefHeight="25.0" prefWidth="600.0" text="Congratulations, You Are Now Authorized" />
+            <Label alignment="CENTER" layoutY="66.0" prefHeight="25.0" prefWidth="600.0" text="To Drive For FGCU Car App Inc." />
+            <JFXButton fx:id="maineMenuButtonPushed" layoutX="232.0" layoutY="178.0" prefHeight="64.0" prefWidth="137.0" text="Main Menu" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

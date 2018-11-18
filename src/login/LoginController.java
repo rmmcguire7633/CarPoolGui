@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import newuser.Validator;
 
 public class LoginController {
 
@@ -38,17 +39,32 @@ public class LoginController {
    ***/
   public void signInButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
 
+    boolean validSignIn = isValid();
+
     //If username and password is correct.
-    if (isValid()) {
+    if (validSignIn && user.getIsAdriver()) {
 
 
       Stage stage = main.MainLogin.getPrimaryStage();
 
-      Parent signInParent = FXMLLoader.load(getClass().getResource("/main/MainMenu.fxml"));
+      Parent signInParent = FXMLLoader.load(getClass().getResource("/main/MainMenuDrive.fxml"));
 
       stage.setScene(new Scene(signInParent));
 
       stage.show();
+    } else if (validSignIn && user.getIsAdriver() == false) {
+
+      Stage stage = main.MainLogin.getPrimaryStage();
+
+      Parent signInParent = FXMLLoader.load(getClass().getResource("/main/MainMenuRide.fxml"));
+
+      stage.setScene(new Scene(signInParent));
+
+      stage.show();
+    } else {
+
+      Validator.errorBox("Wrong User Information",
+          "The UserName And Password Is Incorrect");
     }
   }
 

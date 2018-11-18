@@ -1,3 +1,11 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire
+ * Date: 10/22/2018
+ * This Class holds all the user info pulled from the USERINFO and SCHEDULEINFO table.
+ *
+ *******************************************/
+
 package users;
 
 import java.sql.Time;
@@ -103,7 +111,7 @@ public class User {
     this.email = email;
   }
 
-  public boolean isADriver() {
+  public boolean getIsAdriver() {
 
     return isADriver;
   }

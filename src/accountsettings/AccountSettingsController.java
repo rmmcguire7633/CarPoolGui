@@ -66,13 +66,13 @@ public class AccountSettingsController {
   }
 
   /**
-   * When this button is pushed, the scene will change to the MainMenu.fxml.
+   * When this button is pushed, the scene will change to the MainMenuDrive.fxml.
    * **/
   public void backMenuPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
 
-    Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenu.fxml"));
+    Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuDrive.fxml"));
 
     stage.setScene(new Scene(mainParent));
     stage.show();
@@ -83,13 +83,26 @@ public class AccountSettingsController {
    * **/
   public void mainMenuButtonPushed(ActionEvent actionEvent) throws IOException {
 
-    Stage stage = main.MainLogin.getPrimaryStage();
+    if (user.getIsAdriver()) {
 
-    Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenu.fxml"));
+      Stage stage = main.MainLogin.getPrimaryStage();
 
-    stage.setScene(new Scene(mainParent));
-    stage.show();
+      Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuDrive.fxml"));
+
+      stage.setScene(new Scene(mainParent));
+      stage.show();
+    } else {
+
+      Stage stage = main.MainLogin.getPrimaryStage();
+
+      Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuRide.fxml"));
+
+      stage.setScene(new Scene(mainParent));
+      stage.show();
+    }
   }
+
+
 
   /***
    * <p>
