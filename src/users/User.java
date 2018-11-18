@@ -3,7 +3,7 @@
  * Author: Ryan McGuire
  * Date: 10/22/2018
  * This Class holds all the user info pulled from the USERINFO and SCHEDULEINFO table.
- *
+ *gg
  *******************************************/
 
 package users;
