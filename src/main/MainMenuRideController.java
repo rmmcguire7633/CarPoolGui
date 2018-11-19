@@ -68,6 +68,4 @@ public class MainMenuRideController extends MainMenuDriveController {
       stage.show();
     }
   }
-
-
 }

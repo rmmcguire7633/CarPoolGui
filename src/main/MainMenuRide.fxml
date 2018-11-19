@@ -95,7 +95,7 @@
                 <Insets bottom="10.0" />
               </VBox.margin>
             </JFXButton>
-            <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
+            <JFXButton contentDisplay="TOP" onAction="#signOutButtonPushed" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
               <graphic>
                 <FontAwesomeIconView glyphName="POWER_OFF" size="24" />
               </graphic>

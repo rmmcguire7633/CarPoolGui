@@ -13,6 +13,9 @@ package backgroundcheck;
 import com.jfoenix.controls.JFXProgressBar;
 import com.sun.jmx.snmp.tasks.Task;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Timer;
 import javafx.animation.Animation;
@@ -35,16 +38,32 @@ public class BackgroundCheckController {
 
   @FXML JFXProgressBar progressBar;
 
+  users.User user;
+
   /**
    * When the scene starts, a progress bar will display
    * and after it loads, a new scene will display.
    **/
   public void initialize() {
 
+
+    doProgressBarStuff();
+  }
+
+  /**
+   * When this method is called it will perform an animation for the progressbar for 6 seconds.
+   **/
+  private void doProgressBarStuff() {
+
+    // progress bar goes for 6 seconds.
     Timeline timeline = new Timeline(
         new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
         new KeyFrame(Duration.seconds(6), e -> {
 
+          //changes user to a driver user when the progress bar is finished.
+          changeToDriver();
+
+          //changes the scene once the progress bar is done.
           Stage stage = main.MainLogin.getPrimaryStage();
 
           Parent parent = null;
@@ -64,5 +83,36 @@ public class BackgroundCheckController {
     );
 
     timeline.play();
+  }
+
+  /**
+   * When this method is called it will update the USERINFO's DRIVER column.
+   **/
+  private void changeToDriver () {
+
+    user = new login.LoginController().getUser();
+    user.setADriver(true);
+
+    Connection connection;
+
+    try {
+
+      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection(databaseUrl, "ryan", "ryan");
+
+      String query = "UPDATE USERINFO SET DRIVER=? WHERE USERID=?";
+
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setBoolean(1, user.getIsAdriver());
+      statement.setInt(2, user.getUserId());
+
+      statement.executeUpdate();
+
+      statement.close();
+      connection.close();
+    } catch (Exception e) {
+
+      System.out.println(e);
+    }
   }
 }

@@ -39,11 +39,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import newuser.Validator;
 import org.controlsfx.control.Rating;
+import users.User;
 
 public class MainMenuDriveController {
 
@@ -160,6 +163,10 @@ public class MainMenuDriveController {
     timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
     table.setItems(getRiderInfo());
+
+
+
+
   }
 
   /**
@@ -195,7 +202,6 @@ public class MainMenuDriveController {
       Validator.errorBox("Field Is Empty", "Please Complete All"
           + "Fields to Schedule");
     }
-
   }
 
   /**
@@ -240,7 +246,7 @@ public class MainMenuDriveController {
    * */
   public void reloadButtonPushed(ActionEvent actionEvent) throws SQLException {
 
-    //showTable();
+    showTable();
   }
 
   /**
@@ -281,5 +287,24 @@ public class MainMenuDriveController {
         " West Lake Village", "Gulf Coast Town Center");
 
     ratingBar.ratingProperty().setValue(user.getRating());
+  }
+
+  public void signOutButtonPushed(ActionEvent actionEvent) throws IOException {
+
+    Stage stage = main.MainLogin.getPrimaryStage();
+
+    Parent backParent = FXMLLoader.load(getClass().getResource("/login/LoginScene.fxml"));
+
+    stage.setScene(new Scene(backParent));
+    stage.show();
+  }
+
+  public void displaySelection(MouseEvent mouseEvent) {
+
+    users.User person;
+    person = table.getSelectionModel().getSelectedItem();
+
+    System.out.println(person.getUserName());
+
   }
 }

@@ -48,7 +48,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="308.0">
                            <children>
-                              <TableView fx:id="table" layoutX="17.0" layoutY="74.0" prefHeight="454.0" prefWidth="865.0">
+                              <TableView fx:id="table" layoutX="17.0" layoutY="27.0" onMouseClicked="#displaySelection" prefHeight="419.0" prefWidth="865.0">
                                 <columns>
                                   <TableColumn fx:id="usernameCol" prefWidth="180.0" text="Username" />
                                   <TableColumn fx:id="locationCol" minWidth="0.0" prefWidth="204.0" text="Location" />
@@ -57,7 +57,7 @@
                                     <TableColumn fx:id="timeCol" prefWidth="125.0" text="Time" />
                                 </columns>
                               </TableView>
-                              <JFXButton layoutX="752.0" layoutY="14.0" onAction="#reloadButtonPushed" prefHeight="9.0" prefWidth="114.0" text="Reload" />
+                              <JFXButton layoutX="656.0" layoutY="476.0" onAction="#reloadButtonPushed" prefHeight="9.0" prefWidth="114.0" text="Reload" />
                            </children></AnchorPane>
               </content>
             </Tab>
@@ -83,7 +83,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
             </JFXButton>
-            <JFXButton contentDisplay="TOP" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
+            <JFXButton contentDisplay="TOP" onAction="#signOutButtonPushed" prefHeight="64.0" prefWidth="172.0" text="Sign Out">
               <graphic>
                 <FontAwesomeIconView glyphName="POWER_OFF" size="24" />
               </graphic>
