@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="jdbc:derby://localhost:1527/" uuid="91161c72-87c4-4542-be00-78d840343976">
-      <driver-ref>derby.remote</driver-ref>
-      <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
-      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby://localhost:1527/</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="carpool" uuid="fcbc1ae4-fe88-490c-a4db-20b0dd41ddba">
+    <data-source source="LOCAL" name="carpool" uuid="7327b0f9-6ae1-4919-8bbe-d0a2133e89a2">
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
