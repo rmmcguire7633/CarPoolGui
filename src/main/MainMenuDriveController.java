@@ -43,6 +43,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import newuser.Validator;
 import org.controlsfx.control.Rating;
+import scheduled.EditScheduleController;
+import users.User;
 
 public class MainMenuDriveController {
 
@@ -128,16 +130,7 @@ public class MainMenuDriveController {
 
       ResultSet resultSet = statement.executeQuery(query);
 
-      while (resultSet.next()) {
-
-        String userName = resultSet.getString("USERNAME");
-        String location = resultSet.getString("LOCATION");
-        String destination = resultSet.getString("DESTINATION");
-        Date day = resultSet.getDate("DATE");
-        Time time = resultSet.getTime("TIME");
-
-        scheduleInfo.add(new users.User(userName, location, destination, day, time));
-      }
+      getResultSet(scheduleInfo, resultSet);
     } catch (Exception e) {
 
       System.out.println(e);
@@ -159,6 +152,20 @@ public class MainMenuDriveController {
     timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
     table.setItems(getRiderInfo());
+  }
+
+  public void getResultSet(ObservableList<User> scheduleInfo, ResultSet resultSet)
+      throws SQLException {
+    while (resultSet.next()) {
+
+      String userName = resultSet.getString("USERNAME");
+      String location = resultSet.getString("LOCATION");
+      String destination = resultSet.getString("DESTINATION");
+      Date day = resultSet.getDate("DATE");
+      Time time = resultSet.getTime("TIME");
+
+      scheduleInfo.add(new User(userName, location, destination, day, time));
+    }
   }
 
   /**
@@ -350,8 +357,13 @@ public class MainMenuDriveController {
     }
   }
 
-  public void editScheduleButtonPushed(ActionEvent actionEvent) {
+  public void editScheduleButtonPushed(ActionEvent actionEvent) throws IOException {
 
+    Stage stage = main.MainLogin.getPrimaryStage();
 
+    Parent parent = FXMLLoader.load(getClass().getResource("/scheduled/EditSchedule.fxml"));
+
+    stage.setScene(new Scene(parent));
+    stage.show();
   }
 }
