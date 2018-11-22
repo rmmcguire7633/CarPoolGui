@@ -235,27 +235,6 @@
 {
   -fx-base: -fx-primary;
 }
-
-
-/*JFXDialog styling*/
-.jfx-layout-heading
-{
-  -fx-background-color: -fx-color-1;
-}
-.jfx-layout-heading .label
-{
-  -fx-text-fill: white;
-  -fx-font-size: 12pt;
-}
-.jfx-layout-body, .jfx-layout-actions{
-  -fx-background-color: -fx-primary;
-}
-.jfx-layout-body .label
-{
-  -fx-text-fill: white;
-  -fx-padding: 20px 0 0 0;
-}
-
 /*Checkbox*/
 
 .checkbox-main{
@@ -263,11 +242,16 @@
   -jfx-checked-color: -fx-primary;
   -fx-font-size: 10pt;
 }
-
 .progress-bar .bar{
   -fx-background-color: -fx-secondary;
 }
 .progress-bar .track{
   -fx-background-color: derive(-fx-primary, 20%);
+}
+.date-picker-popup > .month-year-pane {
+  -fx-padding: 0.588883em 0.5em 0.666667em 0.5em;
+  -fx-background-color: -fx-primary;
+  -fx-background-insets: 0 0 0 0, 0 0 1 0;
+  -fx-border-color: -fx-secondary;
 }
 

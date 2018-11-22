@@ -23,6 +23,7 @@ public class User {
   private String destination;
   private Date day;
   private Time time;
+  private boolean userPickedUp;
 
   /**
    * This constructor is used for passing the fields to the USERINFO table
@@ -169,5 +170,13 @@ public class User {
 
   public void setTime(Time time) {
     this.time = time;
+  }
+
+  public boolean isUserPickedUp() {
+    return userPickedUp;
+  }
+
+  public void setUserPickedUp(boolean userPickedUp) {
+    this.userPickedUp = userPickedUp;
   }
 }

@@ -27,11 +27,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,14 +37,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import newuser.Validator;
 import org.controlsfx.control.Rating;
-import users.User;
 
 public class MainMenuDriveController {
 
@@ -70,9 +66,9 @@ public class MainMenuDriveController {
   @FXML private TableColumn<users.User, String> datecol;
   @FXML private TableColumn<users.User, String> timeCol;
 
-  private static Time timOf;
+  private static Time timeOf;
 
-  private users.User user;
+  static private users.User user;
 
   /**
    * When scene starts, username will be in a label along with their rating.
@@ -126,7 +122,7 @@ public class MainMenuDriveController {
       final String databaseUrl = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
-      String query = "SELECT * FROM SCHEDULEINFO";
+      String query = "SELECT * FROM SCHEDULEINFO WHERE DATE >= CURRENT_DATE AND PICKEDUP != true";
 
       statement = connection.createStatement();
 
@@ -163,10 +159,6 @@ public class MainMenuDriveController {
     timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
     table.setItems(getRiderInfo());
-
-
-
-
   }
 
   /**
@@ -186,7 +178,7 @@ public class MainMenuDriveController {
 
       pushToDatabase(user);
 
-      timOf = java.sql.Time.valueOf(time.getValue());
+      timeOf = java.sql.Time.valueOf(time.getValue());
 
       Validator.successfulBox("Success!", "Successfully Scheduled");
 
@@ -219,8 +211,8 @@ public class MainMenuDriveController {
       final String databaseUrl = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
-      String query = " INSERT INTO SCHEDULEINFO (USERNAME, LOCATION, DESTINATION, DATE, TIME) "
-          + "VALUES (?, ?, ?, ?, ?)";
+      String query = " INSERT INTO SCHEDULEINFO (USERNAME, LOCATION, DESTINATION, DATE, TIME, PICKEDUP) "
+          + "VALUES (?, ?, ?, ?, ?, ?)";
       String date = user.getDay().toString();
       String time = user.getTime().toString();
 
@@ -230,6 +222,7 @@ public class MainMenuDriveController {
       statement.setString(3, user.getDestination());
       statement.setString(4, date);
       statement.setString(5, time);
+      statement.setBoolean(6, false);
 
       statement.executeUpdate();
 
@@ -252,9 +245,9 @@ public class MainMenuDriveController {
   /**
    * Get the time the user entered.
    **/
-  public Time getTimOf() {
+  public Time getTimeOf() {
 
-    return timOf;
+    return timeOf;
   }
 
   /**
@@ -289,6 +282,11 @@ public class MainMenuDriveController {
     ratingBar.ratingProperty().setValue(user.getRating());
   }
 
+  public users.User getUser () {
+
+    return user;
+  }
+
   public void signOutButtonPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
@@ -299,12 +297,61 @@ public class MainMenuDriveController {
     stage.show();
   }
 
-  public void displaySelection(MouseEvent mouseEvent) {
+  public void displaySelection(MouseEvent mouseEvent) throws IOException {
 
-    users.User person;
-    person = table.getSelectionModel().getSelectedItem();
+    if (mouseEvent.getClickCount() == 2) {
+      users.User person;
+      person = table.getSelectionModel().getSelectedItem();
 
-    System.out.println(person.getUserName());
+     Boolean userSelection = Validator.confirmationBox("Confirm Schedule",
+          "Schedule to pickup " + person.getUserName() + "?");
+      if (userSelection) {
+
+        scheduleRide(person);
+
+        Stage stage = main.MainLogin.getPrimaryStage();
+
+        Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/Thankyou.fxml"));
+
+        stage.setScene(new Scene(parent));
+        stage.show();
+      }
+    }
+  }
+
+  public void scheduleRide (users.User user) {
+
+    Connection connection;
+
+    try {
+
+      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
+
+      String query = "UPDATE SCHEDULEINFO SET PICKEDUP=? WHERE USERNAME = ? AND DATE=? AND TIME=?";
+
+      String date = user.getDay().toString();
+      String time = user.getTime().toString();
+
+      PreparedStatement statement = connection.prepareStatement(query);
+      statement.setBoolean(1, true);
+      statement.setString(2, user.getUserName());
+      statement.setString(3, date);
+      statement.setString(4, time);
+
+
+      statement.executeUpdate();
+
+      statement.close();
+      connection.close();
+    } catch (Exception e) {
+
+      System.out.println(e);
+    }
+  }
+
+  public void editScheduleButtonPushed(ActionEvent actionEvent) {
+
 
   }
 }
