@@ -1,5 +1,6 @@
 package scheduled;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -12,15 +13,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import newuser.Validator;
 import users.User;
 
 public class ViewDriverController {
 
   private users.User user = new main.MainMenuDriveController().getUser();
+  static private users.User driver;
 
   @FXML private TableView<User> table;
   @FXML private TableColumn<users.User, String> driverCol;
@@ -73,6 +80,9 @@ public class ViewDriverController {
         scheduleInfo.add(new users.User(driver, rating, location, destination, day, time));
       }
 
+      resultSet.close();
+      statement.close();
+      connection.close();
     } catch (Exception e) {
 
       System.out.println(e);
@@ -93,9 +103,77 @@ public class ViewDriverController {
     table.setItems(getRiderInfo());
   }
 
-  public void backButtonPushed(ActionEvent actionEvent) {
+  public void backButtonPushed(ActionEvent actionEvent) throws IOException {
+
+    Stage stage = main.MainLogin.getPrimaryStage();
+
+    Parent parent = FXMLLoader.load(getClass().getResource("/scheduled/EditSchedule.fxml"));
+
+    stage.setScene(new Scene(parent));
+
+    stage.show();
   }
 
-  public void selectedRow(MouseEvent mouseEvent) {
+  public void selectedRow(MouseEvent mouseEvent) throws SQLException, IOException {
+
+    if (mouseEvent.getClickCount() == 2) {
+
+      driver = table.getSelectionModel().getSelectedItem();
+
+      boolean userPressedOk = Validator.confirmationBox("Confirmation" , "Would you like "
+          + driver.getUserName() + " to pick you up?");
+
+      if (userPressedOk) {
+
+        clearRow();
+
+        Stage stage = main.MainLogin.getPrimaryStage();
+
+        Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/ThankYouRide.fxml"));
+
+        stage.setScene(new Scene(parent));
+
+        stage.show();
+      }
+    }
+  }
+
+  public void clearRow () {
+
+    Connection connection;
+    PreparedStatement statement;
+
+    try {
+
+      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
+      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
+
+      String query = "DELETE FROM SCHEDULEINFO WHERE USERNAME=? AND LOCATION=? AND DESTINATION=?"
+          + " AND DATE=? AND TIME=? AND DRIVER=?";
+
+      statement = connection.prepareStatement(query);
+
+      String date = driver.getDay().toString();
+      String time = driver.getTime().toString();
+
+      statement.setString(1, user.getUserName());
+      statement.setString(2, driver.getLocation());
+      statement.setString(3, driver.getDestination());
+      statement.setString(4, date);
+      statement.setString(5, time);
+      statement.setString(6, driver.getUserName());
+
+      statement.executeUpdate();
+      statement.close();
+      connection.close();
+    } catch (Exception e) {
+
+      System.out.println(e);
+    }
+  }
+
+  public users.User getDriver () {
+
+    return driver;
   }
 }

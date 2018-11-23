@@ -58,9 +58,6 @@ public class EditScheduleController extends main.MainMenuDriveController{
    **/
   public void confirmChangeButtonPushed(ActionEvent actionEvent) throws SQLException {
 
-
-
-
     if (!(pickUp.getSelectionModel().isEmpty())) {
 
       user.setLocation((String) pickUp.getValue());
@@ -176,8 +173,8 @@ public class EditScheduleController extends main.MainMenuDriveController{
       statement.setString(9, time2);
 
       statement.executeUpdate();
-      System.out.println("blah");
-
+      statement.close();
+      connection.close();
     } catch (Exception e) {
 
       System.out.println(e);

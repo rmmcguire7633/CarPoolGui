@@ -69,8 +69,8 @@ public class MainMenuDriveController {
 
   private static Time timeOf;
 
-  private users.User person;
-  static private users.User user;
+  private static users.User person;
+  private static users.User user;
 
   /**
    * When scene starts, username will be in a label along with their rating.
@@ -131,6 +131,10 @@ public class MainMenuDriveController {
       ResultSet resultSet = statement.executeQuery(query);
 
       getResultSet(scheduleInfo, resultSet);
+
+      statement.close();
+      resultSet.close();
+      connection.close();
     } catch (Exception e) {
 
       System.out.println(e);
@@ -319,12 +323,17 @@ public class MainMenuDriveController {
 
         Stage stage = main.MainLogin.getPrimaryStage();
 
-        Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/Thankyou.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/ThankYouDrive.fxml"));
 
         stage.setScene(new Scene(parent));
         stage.show();
       }
     }
+  }
+
+  public users.User getPerson() {
+
+    return person;
   }
 
   public void scheduleRide (users.User person) {
