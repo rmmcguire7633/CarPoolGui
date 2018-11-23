@@ -83,23 +83,7 @@ public class AccountSettingsController {
    * **/
   public void mainMenuButtonPushed(ActionEvent actionEvent) throws IOException {
 
-    if (user.getIsAdriver()) {
-
-      Stage stage = main.MainLogin.getPrimaryStage();
-
-      Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuDrive.fxml"));
-
-      stage.setScene(new Scene(mainParent));
-      stage.show();
-    } else {
-
-      Stage stage = main.MainLogin.getPrimaryStage();
-
-      Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuRide.fxml"));
-
-      stage.setScene(new Scene(mainParent));
-      stage.show();
-    }
+    getDriverOrRiderScene(user);
   }
 
 
@@ -308,5 +292,26 @@ public class AccountSettingsController {
     }
 
     return userPressedOk;
+  }
+
+  public void getDriverOrRiderScene(users.User user) throws IOException {
+
+    if (user.getIsAdriver()) {
+
+      Stage stage = main.MainLogin.getPrimaryStage();
+
+      Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuDrive.fxml"));
+
+      stage.setScene(new Scene(mainParent));
+      stage.show();
+    } else {
+
+      Stage stage = main.MainLogin.getPrimaryStage();
+
+      Parent mainParent = FXMLLoader.load(getClass().getResource("/main/MainMenuRide.fxml"));
+
+      stage.setScene(new Scene(mainParent));
+      stage.show();
+    }
   }
 }

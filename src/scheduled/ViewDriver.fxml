@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="482.0" prefWidth="1055.0" stylesheets="@../resources/dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scheduled.ViewDriverController">
+   <children>
+      <JFXButton layoutX="20.0" layoutY="27.0" onAction="#backButtonPushed" prefHeight="60.0" prefWidth="126.0" text="Back" />
+      <TableView fx:id="table" layoutX="21.0" layoutY="155.0" onMouseClicked="#selectedRow" prefHeight="274.0" prefWidth="1013.0">
+         <columns>
+            <TableColumn fx:id="driverCol" prefWidth="252.0" text="Driver" />
+            <TableColumn fx:id="ratingCol" prefWidth="75.0" text="Rating" />
+            <TableColumn fx:id="locationCol" minWidth="0.0" prefWidth="230.0" text="Location" />
+            <TableColumn fx:id="destinationcol" minWidth="0.0" prefWidth="224.0" text="Destination" />
+            <TableColumn fx:id="datecol" prefWidth="117.0" text="Date" />
+            <TableColumn fx:id="timeCol" prefWidth="135.0" text="Time" />
+         </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutY="14.0" prefHeight="25.0" prefWidth="1055.0" text="(Double click on the table below to confirm your ride)" />
+   </children>
+</AnchorPane>

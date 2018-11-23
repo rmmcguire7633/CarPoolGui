@@ -83,6 +83,16 @@ public class User {
     this.rating = rating;
   }
 
+  public User(String userName, double rating, String location, String destination, Date day, Time time) {
+
+    this.userName = userName;
+    this.rating = rating;
+    this.location = location;
+    this.destination = destination;
+    this.day = day;
+    this.time = time;
+  }
+
   public double getRating() {
 
     return rating;

@@ -43,7 +43,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import newuser.Validator;
 import org.controlsfx.control.Rating;
-import scheduled.EditScheduleController;
 import users.User;
 
 public class MainMenuDriveController {
@@ -70,6 +69,7 @@ public class MainMenuDriveController {
 
   private static Time timeOf;
 
+  private users.User person;
   static private users.User user;
 
   /**
@@ -124,7 +124,7 @@ public class MainMenuDriveController {
       final String databaseUrl = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
-      String query = "SELECT * FROM SCHEDULEINFO WHERE DATE >= CURRENT_DATE AND PICKEDUP != true";
+      String query = "SELECT * FROM SCHEDULEINFO WHERE DATE >= CURRENT_DATE AND DRIVER IS NULL";
 
       statement = connection.createStatement();
 
@@ -156,6 +156,7 @@ public class MainMenuDriveController {
 
   public void getResultSet(ObservableList<User> scheduleInfo, ResultSet resultSet)
       throws SQLException {
+
     while (resultSet.next()) {
 
       String userName = resultSet.getString("USERNAME");
@@ -218,8 +219,8 @@ public class MainMenuDriveController {
       final String databaseUrl = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
-      String query = " INSERT INTO SCHEDULEINFO (USERNAME, LOCATION, DESTINATION, DATE, TIME, PICKEDUP) "
-          + "VALUES (?, ?, ?, ?, ?, ?)";
+      String query = " INSERT INTO SCHEDULEINFO (USERNAME, LOCATION, DESTINATION, DATE, TIME) "
+          + "VALUES (?, ?, ?, ?, ?)";
       String date = user.getDay().toString();
       String time = user.getTime().toString();
 
@@ -229,7 +230,6 @@ public class MainMenuDriveController {
       statement.setString(3, user.getDestination());
       statement.setString(4, date);
       statement.setString(5, time);
-      statement.setBoolean(6, false);
 
       statement.executeUpdate();
 
@@ -307,8 +307,9 @@ public class MainMenuDriveController {
   public void displaySelection(MouseEvent mouseEvent) throws IOException {
 
     if (mouseEvent.getClickCount() == 2) {
-      users.User person;
+
       person = table.getSelectionModel().getSelectedItem();
+
 
      Boolean userSelection = Validator.confirmationBox("Confirm Schedule",
           "Schedule to pickup " + person.getUserName() + "?");
@@ -326,7 +327,7 @@ public class MainMenuDriveController {
     }
   }
 
-  public void scheduleRide (users.User user) {
+  public void scheduleRide (users.User person) {
 
     Connection connection;
 
@@ -335,17 +336,18 @@ public class MainMenuDriveController {
       final String databaseUrl = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
-      String query = "UPDATE SCHEDULEINFO SET PICKEDUP=? WHERE USERNAME = ? AND DATE=? AND TIME=?";
+      String query = "UPDATE SCHEDULEINFO SET DRIVER=? WHERE USERNAME = ? AND DATE=? AND TIME=?";
 
-      String date = user.getDay().toString();
-      String time = user.getTime().toString();
+      String date = person.getDay().toString();
+      String time = person.getTime().toString();
 
       PreparedStatement statement = connection.prepareStatement(query);
-      statement.setBoolean(1, true);
-      statement.setString(2, user.getUserName());
+      statement.setString(1, user.getUserName());
+      statement.setString(2, person.getUserName());
       statement.setString(3, date);
       statement.setString(4, time);
 
+      System.out.println(user.getUserName());
 
       statement.executeUpdate();
 
