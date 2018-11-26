@@ -127,7 +127,7 @@ public class EditScheduleController extends main.MainMenuDriveController{
       final String databaseUrl = "jdbc:derby:C:lib\\carpool";
       connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
 
-      String query = "SELECT * FROM SCHEDULEINFO WHERE USERNAME = ?";
+      String query = "SELECT * FROM SCHEDULEINFO WHERE USERNAME = ? AND DATE >= CURRENT_DATE";
 
       statement = connection.prepareStatement(query);
       statement.setString(1, user.getUserName());
