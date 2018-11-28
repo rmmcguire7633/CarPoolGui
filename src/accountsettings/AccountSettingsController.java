@@ -5,7 +5,7 @@
  * James-created scene and the functionality of being able to change picture.
  * Ryan- changed scene and added update function to the database on 11/13/2018.
  * Ryan- Added format check for text fields and alert boxes to let user know of errors and
- * successful input.
+ * successful input on 11/15/2018.
  *
  *******************************************/
 

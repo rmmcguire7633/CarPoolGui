@@ -8,7 +8,7 @@
  * Edited by Ryan McGuire 11/16/2018- added functionality of adding the
  * users schedule to the database.
  * Edited by Ryan McGuire 11/16/18 - added functionality to populate table from the drive tab with
- * information from the database.
+ * information from the SCHEDULEINFO table.
  *
  *******************************************/
 
@@ -56,7 +56,10 @@ public class MainMenuDriveController {
   @FXML private JFXComboBox dropOff;
 
   @FXML private JFXDatePicker calendarDate;
+
+  //used to black out previous date options in the date picker.
   final LocalDate minDate = LocalDate.now();
+
   @FXML private JFXTimePicker time;
 
   //table used to see riders who need a ride.
@@ -68,8 +71,12 @@ public class MainMenuDriveController {
   @FXML private TableColumn<users.User, String> timeCol;
 
   private static Time timeOf;
+  private static Date dayOf;
 
+  //the rider the user clicked on in the table in the drive tab.
   private static users.User person;
+
+  //the user who signed in.
   private static users.User user;
 
   /**
@@ -108,8 +115,9 @@ public class MainMenuDriveController {
   }
 
   /**
-   * When this method is called, the database USERINFO will be searched.
-   * This search will return information from the LOCATION column if it is not null.
+   * When this method is called, the table SCHEDULEINFO will be searched.
+   * This search will return information from the LOCATION column if it is greater than or equal
+   * to the current date.
    * @return scheduleInfo - the list containing all information fetched from the USERINFO database.
    **/
   public ObservableList<users.User> getRiderInfo() throws SQLException {
@@ -158,6 +166,12 @@ public class MainMenuDriveController {
     table.setItems(getRiderInfo());
   }
 
+  /**
+   * When this method is called, it will create a new row in the table in the drive tab with
+   * information from the SCEDHULEINFO table.
+   * @param scheduleInfo list used to store information from the SCHEDULEINFO table search.
+   * @param resultSet the result set used to populate the scheduleInfo list.
+   **/
   public void getResultSet(ObservableList<User> scheduleInfo, ResultSet resultSet)
       throws SQLException {
 
@@ -175,8 +189,8 @@ public class MainMenuDriveController {
 
   /**
   * When this button is pushed, the text fields, date fields, and time fields will be checked
-   * to see if theya re blank.
-   * If they arte not blank, the information in the fields be pushed to the USERINFO table.
+   * to see if they are blank.
+   * If they arte not blank, the information in the fields will be pushed to the SCHEDULEINFO table.
   **/
   public void scheduleButtonPushed(ActionEvent actionEvent) throws IOException {
 
@@ -191,6 +205,7 @@ public class MainMenuDriveController {
       pushToDatabase(user);
 
       timeOf = java.sql.Time.valueOf(time.getValue());
+      dayOf = java.sql.Date.valueOf(calendarDate.getValue());
 
       Validator.successfulBox("Success!", "Successfully Scheduled");
 
@@ -203,7 +218,7 @@ public class MainMenuDriveController {
 
     } else {
 
-      Validator.errorBox("Field Is Empty", "Please Complete All"
+      Validator.errorBox("Field Is Empty", "Please Complete All "
           + "Fields to Schedule");
     }
   }
@@ -211,7 +226,7 @@ public class MainMenuDriveController {
   /**
    * When this method is called, the database table,
    * SCHEDULEINFO will insert into the LOCATION, DESTINATION,
-   * DATE, TIME column.
+   * DATE, TIME column from the combo box field, pickdate field, and picktime field.
    * @param user the person using the interface.
    **/
   public void pushToDatabase(users.User user) {
@@ -254,11 +269,21 @@ public class MainMenuDriveController {
   }
 
   /**
-   * Get the time the user entered.
+   * Gets the time the user entered.
+   * @return Time allows the timeOf field to be passed to another class.
    **/
   public Time getTimeOf() {
 
     return timeOf;
+  }
+
+  /**
+   * Gets the day the user entered.
+   * @return Date allows the date from the pickdate field to be passed to another class.
+  **/
+  public Date getDayOf() {
+
+    return dayOf;
   }
 
   /**
@@ -293,11 +318,19 @@ public class MainMenuDriveController {
     ratingBar.ratingProperty().setValue(user.getRating());
   }
 
+  /**
+   * This method allows the user's information to be passed to another class.
+   * @return users.User the information of the person using the program.
+   **/
   public users.User getUser () {
 
     return user;
   }
 
+  /**
+   * When this button is pushed it will sign the user out and send them to the login.LoginScene.fxml
+   * scene.
+   **/
   public void signOutButtonPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
@@ -308,6 +341,11 @@ public class MainMenuDriveController {
     stage.show();
   }
 
+  /**
+   * When the user clicks twice on the table in the drive tab, it will create a new instant of the
+   * users.User type from the information in the table.
+   * This method will allow the driver to confirm to pick up a rider in the table in the drive tab.
+   **/
   public void displaySelection(MouseEvent mouseEvent) throws IOException {
 
     if (mouseEvent.getClickCount() == 2) {
@@ -317,25 +355,38 @@ public class MainMenuDriveController {
 
      Boolean userSelection = Validator.confirmationBox("Confirm Schedule",
           "Schedule to pickup " + person.getUserName() + "?");
-      if (userSelection) {
 
-        scheduleRide(person);
+     // if user presses ok in the dialog box.
+     if (userSelection) {
 
-        Stage stage = main.MainLogin.getPrimaryStage();
+       //pushed the current users USERNAME into the SCHEDULEINFO table DRIVER column.
+       scheduleRide(person);
 
-        Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/ThankYouDrive.fxml"));
+       Stage stage = main.MainLogin.getPrimaryStage();
 
-        stage.setScene(new Scene(parent));
-        stage.show();
+       Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/ThankYouDrive.fxml"));
+
+       stage.setScene(new Scene(parent));
+       stage.show();
       }
     }
   }
 
+  /**
+   * Allows the info from the table in the drive tab that the user selected to be passed
+   * to other classes.
+   * @return users.User the information from the selected row from the table in drive tab.
+   **/
   public users.User getPerson() {
 
     return person;
   }
 
+  /**
+   * When this method is called, pushed the current users USERNAME into
+   * the SCHEDULEINFO table DRIVER column.
+   * @param person the rider info that is selected from the table in drive tab.
+   **/
   public void scheduleRide (users.User person) {
 
     Connection connection;
@@ -368,6 +419,9 @@ public class MainMenuDriveController {
     }
   }
 
+  /**
+   * When this button is pushed, it will send the user to the scheduled.EditSchedule.fxml scene.
+   **/
   public void editScheduleButtonPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();

@@ -2,15 +2,18 @@
  *
  * Author: Ryan McGuire
  * Date: 11/17/2018
- * This scene will display how long the user must wait for the driver.
+ * This scene will display how long the user must wait for the driver based
+ * on the current day and time.
  *
  *******************************************/
 
 package scheduled;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +30,10 @@ public class ScheduledAlertController {
   private LocalTime timeNow;
   private Time currentTime;
 
+  private Date dayOf;
+  private LocalDate dateNow;
+  private Date currentDay;
+
   static users.User user = new main.MainMenuRideController().getUser();
 
   @FXML Label timeLabel;
@@ -41,16 +48,35 @@ public class ScheduledAlertController {
     timeNow = LocalTime.now();
     currentTime = Time.valueOf(timeNow);
 
-    long diff = timeOf.getTime() - currentTime.getTime();
+    dayOf = new MainMenuDriveController().getDayOf();
+    dateNow = LocalDate.now();
+    currentDay = Date.valueOf(dateNow);
 
-    long diffDays = diff / (24 * 60 * 60 * 1000);
-    long diffHours = diff / (60 * 60 * 1000) % 24;
-    long diffMin = diff / (60 * 1000) % 60;
+    long diffTime = timeOf.getTime() - currentTime.getTime();
+    long diffDay = dayOf.getTime() - currentDay.getTime();
+
+    long diffDays = diffDay / (24 * 60 * 60 * 1000);
+    long diffHours = diffTime / (60 * 60 * 1000) % 24;
+    long diffMin = diffTime / (60 * 1000) % 60;
+
+    if (diffHours < 0) {
+
+      diffHours *= -1;
+    }
+
+    if (diffMin < 0) {
+
+      diffMin *= -1;
+    }
 
     timeLabel.setText(String.valueOf("Days: " + diffDays
-        + "Hours: " + diffHours + " Minutes: " + diffMin));
+        + " Hours: " + diffHours + " Minutes: " + diffMin));
   }
 
+  /**
+   * When this button is pushed, the scene will change to the main.MainMenuDrive.fxml (true)
+   * scene or the main.MainMenuRide.fxml (false) scene based on the users isAdriver boolean value.
+   **/
   public void continueButtonPushed(ActionEvent actionEvent) throws IOException {
 
     if (user.getIsAdriver()) {

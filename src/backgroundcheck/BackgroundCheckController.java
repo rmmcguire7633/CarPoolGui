@@ -86,7 +86,7 @@ public class BackgroundCheckController {
   }
 
   /**
-   * When this method is called it will update the USERINFO's DRIVER column.
+   * When this method is called it will update the  table USERINFO's DRIVER column to true.
    **/
   private void changeToDriver () {
 

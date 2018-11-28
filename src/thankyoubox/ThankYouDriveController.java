@@ -1,3 +1,11 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire on 11/21/18
+ * This scene allows the user to rate the the rider they picked from the tableview in
+ * main.MainMenuDriveController in the drive tab.
+ *
+ *******************************************/
+
 package thankyoubox;
 
 import java.io.IOException;
@@ -19,13 +27,21 @@ public class ThankYouDriveController {
   @FXML private Rating rating;
   @FXML private Label label;
 
+  // the type created from the selected row from main.MainMenuDriveController tableview.
   private users.User rider = new main.MainMenuDriveController().getPerson();
 
+  /**
+   * When the scene first loads, the label will display the selected rider's username.
+   **/
   public void initialize() {
 
     label.setText(rider.getUserName());
   }
 
+  /**
+   * When this button is pushed, the average riders's rating will be updated with the selected
+   * rating.
+   **/
   public void submitButtonPushed(ActionEvent actionEvent) throws IOException {
 
     getRiderRating();
@@ -34,6 +50,7 @@ public class ThankYouDriveController {
 
     rider.setRating((rated + rider.getRating()) / 2);
 
+    //updates the RATING column in USERINFO table with the new rating.
     ThankYouRideController.pushAverageRatingToDatabase(rider);
 
     Stage stage = main.MainLogin.getPrimaryStage();
@@ -45,6 +62,10 @@ public class ThankYouDriveController {
     stage.show();
   }
 
+  /**
+   * When this method is called, it will get the RATING of the rider's USERNAME from the
+   * USERINFO table.
+   **/
   public void getRiderRating () {
 
     Connection connection;
@@ -71,7 +92,7 @@ public class ThankYouDriveController {
 
     } catch (Exception e) {
 
-
+      System.out.println(e);
     }
   }
 }

@@ -81,9 +81,6 @@ public class NewUserController implements DataBaseHandler {
     stage.show();
   }
 
-  public void passwordTextField(ActionEvent actionEvent) {
-  }
-
   /**
    * When this method is called it will check the USERINFO table to see if the username in the text
    * field is all ready in use. If the user does not exist in the USERINFO table it will create

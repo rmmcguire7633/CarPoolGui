@@ -1,3 +1,12 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire on 11/21/18
+ * Populates a table with the users scheduled rides from the SCHEDULEINFO table.
+ * Allows user to edit the columns LOCATION, DESTINATION, DATE, and TIME from the SCHEDULEINFO table.
+ * Allows the user to navigate to the scheduled.ViewDriver.fxml scene.
+ *
+ *******************************************/
+
 package scheduled;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -38,10 +47,16 @@ public class EditScheduleController extends main.MainMenuDriveController{
   //table used to display what the user has scheduled.
   @FXML private TableView<User> table;
 
+  // the information on the user passed from the main.MainMenuDriveController class.
   private users.User user = new main.MainMenuDriveController().getUser();
-  private users.User user2;
+
+  // the user information created by clicking on the table.
   private users.User person;
 
+  /**
+   * When the scene first loads, it will populate the combo boxes and place information
+   * pulled form the SCHEDULEINFO table into the table view.
+   **/
   public void initialize() throws SQLException {
 
     pickUp.getItems().addAll("FGCU Campus", "South Village", "North lake Village",
@@ -54,7 +69,9 @@ public class EditScheduleController extends main.MainMenuDriveController{
   }
 
   /**
-   * When this button is pushed, the schedule row for the user will update to the indicated change.
+   * When this button is pushed, the information from the SCHEDULEINFO tables columns LOCATION,
+   * DESTINATION, DATE, and TIME will update to what the user has placed in the text fields.
+   *
    **/
   public void confirmChangeButtonPushed(ActionEvent actionEvent) throws SQLException {
 
@@ -90,16 +107,12 @@ public class EditScheduleController extends main.MainMenuDriveController{
       user.setTime(person.getTime());
     }
 
-    System.out.println(person.getLocation());
-    System.out.println(user.getLocation());
-
     changeScheduleInfo();
     showTable();
-
   }
 
   /**
-   * When the table is clicked, the user will be set to all the values from the table.
+   * When the table is clicked, the person field will be set to all the values from the table.
    **/
   public void selectedRow(MouseEvent mouseEvent) {
 
@@ -107,13 +120,12 @@ public class EditScheduleController extends main.MainMenuDriveController{
     person = table.getSelectionModel().getSelectedItem();
 
     setPerson(person);
-
-    System.out.println(user.getLocation());
-    System.out.println(person.getLocation());
   }
 
   /**
    * When this method is called, it will set the values inside the table.
+   * The values are pulled from the SCHEDULEINGO table columns LOCATION, DESTINATION,
+   * DATE and TIME.
    **/
   public ObservableList<User> getRiderInfo() throws SQLException {
 
@@ -134,6 +146,7 @@ public class EditScheduleController extends main.MainMenuDriveController{
 
       ResultSet resultSet = statement.executeQuery();
 
+      //creates result set to store information pulled from the SCHEDULEINFO table into the list.
       getResultSet(scheduleInfo, resultSet);
     } catch (Exception e) {
 
@@ -143,6 +156,11 @@ public class EditScheduleController extends main.MainMenuDriveController{
     return scheduleInfo;
   }
 
+  /**
+   * When this method is called, the SCHEDULEINFO table's columns LOCATION, DESTINATION, DATE and
+   * TIME will be updated with the information with in the combobox, pickdate, and picktime.
+   * The selection that will be updated is the row the user has active on the table view.
+   **/
   public void changeScheduleInfo(){
 
     Connection connection;
@@ -181,17 +199,29 @@ public class EditScheduleController extends main.MainMenuDriveController{
     }
   }
 
+  /**
+   * Used to set the information from the selected row to the person field.
+   **/
   public void setPerson (users.User person){
 
-    this.person=person;
+    this.person = person;
   }
 
+  /**
+   * When this button is pushed, the scene will change to the main.MainMenuDriveControler.fxml
+   * if the boolean value (isAdriver) is true, or main.MainMenuRideController.fxml if the value is
+   * false.
+   **/
   public void mainMenuButtonPushed(ActionEvent actionEvent) throws IOException {
 
-    accountsettings.AccountSettingsController changeScene = new accountsettings.AccountSettingsController();
+    accountsettings.AccountSettingsController changeScene =
+        new accountsettings.AccountSettingsController();
     changeScene.getDriverOrRiderScene(user);
   }
 
+  /**
+   * When this button is pushed, the scene will change to the scheduled.ViewDriver.fxml scene.
+   **/
   public void viewDriverButtonPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();

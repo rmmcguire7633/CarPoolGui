@@ -40,6 +40,7 @@
   -jfx-focus-color: -fx-secondary;
   -fx-text-fill: derive(-fx-secondary, 20%);
 }
+
 .combo-box {
   -fx-background-color: -fx-primary;
   -fx-text-fill: -fx-secondary;
@@ -93,6 +94,7 @@
 .settings-tab .tab-header-background{
   -fx-background-color: derive(-fx-primary, -50%);
 }
+
 /*Menu bar Styling*/
 .menu-bar{
   -fx-base : -fx-primary;
@@ -102,25 +104,6 @@
 .context-menu
 {
   -fx-background-color:  derive(-fx-primary, 20%);
-}
-
-/*Toolbar buttons*/
-.toolbar-button
-{
-  -fx-border-color: transparent;
-  -fx-background-color: derive(-fx-primary, 10%);
-  -fx-background-radius: 0px;
-  -fx-border-radius: 0px;
-}
-.toolbar-button:hover
-{
-  -fx-background-color: -fx-secondary;
-  -fx-text-fill: -fx-primary;
-}
-
-.toolbar-button:hover .glyph-icon, .toolbar-button:hover .glyph-icon
-{
-  -fx-fill: -fx-primary;
 }
 
 /*Text styling*/
@@ -135,31 +118,12 @@
   -fx-background-color: derive(-fx-primary, 10%);
 }
 
-/*Dialog styling*/
-.dialog-button{
-  -fx-border-color: -fx-color-1;
-  -fx-text-fill: white;
-  -fx-border-radius: 1px;
-  -fx-background-radius: 3px;
-}
-
-.dialog-button:hover{
-  -fx-background-color: -fx-color-1;
-  -fx-border-color: derive(-fx-color-1, -20%);
-  -fx-text-fill: white;
-}
-
 .jfx-layout-actions
 {
   -fx-hgap:8;
 }
 
-/*Custom window background*/
-.custom-pane{
-  -fx-background-color: derive(-fx-primary, 5%);
-}
-
-/*TableView Default*/
+/*Start of table view*/
 .table-view{
   -fx-background-color: derive(-fx-primary, 10%);
   -fx-font-size: 16px;
@@ -235,13 +199,7 @@
 {
   -fx-base: -fx-primary;
 }
-/*Checkbox*/
-
-.checkbox-main{
-  -fx-text-fill: -fx-secondary;
-  -jfx-checked-color: -fx-primary;
-  -fx-font-size: 10pt;
-}
+/*progress bar*/
 .progress-bar .bar{
   -fx-background-color: -fx-secondary;
 }

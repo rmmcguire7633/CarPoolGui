@@ -1,3 +1,11 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire on 11/21/18
+ * This scene allows the user to rate the the driver they picked from the tableview in
+ * scheduled.ViewDriverController.
+ *
+ *******************************************/
+
 package thankyoubox;
 
 import java.io.IOException;
@@ -20,13 +28,22 @@ public class ThankYouRideController {
   @FXML private Rating rating;
   @FXML private Label label;
 
+  // the type created from the selected table view row in scheduled.ViewDriverController.
   private users.User driver = new scheduled.ViewDriverController().getDriver();
 
+  /**
+   * When the scene is first loaded, the driver username will populate the label field.
+   **/
   public void initialize() throws SQLException {
 
     label.setText(driver.getUserName());
   }
 
+  /**
+   * When this button is pushed, it will add the new calculated rating for the driver into the
+   * RATING column USERINFO table.
+   * This method will also change the scene to scheduled.ViewDriver.fxml.
+   **/
   public void submitButtonPushed(ActionEvent actionEvent) throws IOException {
 
     performRatingCalculation(driver);
@@ -40,6 +57,13 @@ public class ThankYouRideController {
     stage.show();
   }
 
+  /**
+   * When this method is called, it will add the new calculated rating for the driver into the
+   * RATING column USERINFO table.
+   * This method will also display a confirmation dialogue box to thank the user.
+   * @param person the type created from the row selection in the table view located in
+   * scheduled.ViewDriverController.
+   **/
   public void performRatingCalculation(users.User person) {
 
     double rated = rating.getRating();
@@ -51,6 +75,12 @@ public class ThankYouRideController {
     Validator.successfulBox("Success!", "Thank You For Your Feedback");
   }
 
+  /**
+   * When this method is called, it will add the new calculated user rating for the driver to the
+   * RATING column in the USERINFO table.
+   * @param person the the type created from the row selection in the table view located in
+   * scheduled.ViewDriverController.
+   **/
   public static void pushAverageRatingToDatabase(users.User person) {
 
     Connection connection;

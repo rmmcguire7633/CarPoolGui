@@ -2,7 +2,12 @@
  *
  * Author: Ryan McGuire
  * Date: 10/23/2018
- * Contains the controller for the LoginScene
+ * This scene accesses the database to check if username and password are valid.
+ * If the user is valid it will promt the user and change the scene depending on the DRIVER column
+ * in the USERINFO table value.
+ * If user is not valid, there access will be blocked.
+ * This scene also allows the user to navigate to the newuser.NewUser.fxml scene so they can
+ * create an account to sign in.
  *
  *******************************************/
 
@@ -69,7 +74,7 @@ public class LoginController {
   }
 
   /**
-   * When this method is called, the scene will change to NewUser.fxml.
+   * When this method is called, the scene will change to newuser.NewUser.fxml.
    **/
   public void newUserButtonPushed(ActionEvent actionEvent) throws IOException {
 
@@ -129,6 +134,7 @@ public class LoginController {
           //gets rating of the userInfo form the database.
           Double rating = resultSet.getDouble("RATING");
 
+          //creates a new instance of the user who signed in.
           user = new users.User(userId, userName, password, email, isADriver, rating);
           setUser(user);
 
@@ -157,6 +163,10 @@ public class LoginController {
     user = userInfo;
   }
 
+  /**
+   * This method is used to transfer the contents of the user who signed in to other classes.
+   * @return users.User the user who signed in.
+   **/
   public users.User getUser() {
 
     return user;

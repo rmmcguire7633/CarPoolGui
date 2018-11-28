@@ -1,3 +1,16 @@
+/*******************************************
+ *
+ * Author: Ryan McGuire
+ * Date: 11/17/2018
+ * This scene will display a table that contains information from both SCHEDULEINFO and
+ * USERINFO table.
+ * SCHEDULEINFO columns displayed - DRIVER, LOCATION, DESTINATION, DATE, TIME.
+ * USERINFO columns displayed - RATING.
+ * The user will be able to double click the row and confirm the Driver who is picking them up and
+ * afterwords will allow the user to rate the driver.
+ *
+ *******************************************/
+
 package scheduled;
 
 import java.io.IOException;
@@ -7,7 +20,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Time;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,9 +38,13 @@ import users.User;
 
 public class ViewDriverController {
 
+  //the current user
   private users.User user = new main.MainMenuDriveController().getUser();
+
+  //the User type created by the row selection of the table.
   static private users.User driver;
 
+  //all the table view fields.
   @FXML private TableView<User> table;
   @FXML private TableColumn<users.User, String> driverCol;
   @FXML private TableColumn<users.User, String> ratingCol;
@@ -37,11 +53,23 @@ public class ViewDriverController {
   @FXML private TableColumn<users.User, String> datecol;
   @FXML private TableColumn<users.User, String> timeCol;
 
+  /**
+   * When the scene first loads, it will display the table the holds information from the
+   * SCHEDULEINFO table column's DRIVER, LOCATION, DESTINATION, DATE, TIME and the information
+   * from the USERINFO table column RATING.
+   **/
   public void initialize() throws SQLException {
 
     showTable();
   }
 
+  /**
+   * When this method is called, it will get the information from the
+   * SCHEDULEINFO table column's DRIVER, LOCATION, DESTINATION, DATE, TIME and the information
+   * based on the users username USERNAME column form the SCHEDULEINFO table and
+   * from the USERINFO table column RATING based on the DRIVER column in the SCHEDULEINFO table.
+   * @return ObservableList the list created from the contents of the database.
+   **/
   public ObservableList<User> getRiderInfo() throws SQLException {
 
     ObservableList<users.User> scheduleInfo = FXCollections.observableArrayList();
@@ -75,8 +103,6 @@ public class ViewDriverController {
         Date day = resultSet.getDate("DATE");
         Time time = resultSet.getTime("TIME");
 
-        System.out.println(driver);
-
         scheduleInfo.add(new users.User(driver, rating, location, destination, day, time));
       }
 
@@ -91,6 +117,9 @@ public class ViewDriverController {
     return scheduleInfo;
   }
 
+  /**
+   * When this method is called, the table will display with the designated contents.
+   **/
   public void showTable() throws SQLException {
 
     driverCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
@@ -103,6 +132,9 @@ public class ViewDriverController {
     table.setItems(getRiderInfo());
   }
 
+  /**
+   * When this button is pushed, the scene will change to the scheduled.EditSchedule.fxml scene.
+   **/
   public void backButtonPushed(ActionEvent actionEvent) throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
@@ -114,13 +146,19 @@ public class ViewDriverController {
     stage.show();
   }
 
+  /**
+   * When the table is double clicked, the selected row will set the value for the driver field.
+   * This method will also display a confirmation box for the user, if the user clicks ok then
+   * the scene will change to thankyou.ThankYouRide.fxml scene.
+   **/
   public void selectedRow(MouseEvent mouseEvent) throws SQLException, IOException {
 
     if (mouseEvent.getClickCount() == 2) {
 
       driver = table.getSelectionModel().getSelectedItem();
 
-      boolean userPressedOk = Validator.confirmationBox("Confirmation" , "Would you like "
+      boolean userPressedOk = Validator.confirmationBox("Confirmation" ,
+          "Would you like "
           + driver.getUserName() + " to pick you up?");
 
       if (userPressedOk) {
@@ -138,6 +176,10 @@ public class ViewDriverController {
     }
   }
 
+  /**
+   * When this method is called, it will delete the selected info from the tableview and the
+   * information from that row will delete the row in SCHEDULEINFO.
+   **/
   public void clearRow () {
 
     Connection connection;
@@ -172,6 +214,9 @@ public class ViewDriverController {
     }
   }
 
+  /**
+   * This method allows the user type driver to be passed to another class.
+   **/
   public users.User getDriver () {
 
     return driver;

@@ -34,14 +34,14 @@
         </MenuBar>
             <Pane layoutX="-1.0" layoutY="24.0" prefHeight="457.0" prefWidth="582.0">
                <children>
-                  <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageView" fitHeight="204.0" fitWidth="181.0" layoutX="14.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@avatar-1577909_960_720.png" />
                      </image>
                   </ImageView>
                   <Text layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-text" text="Account Settings" textAlignment="CENTER" wrappingWidth="582.0000097751617" />
                   <JFXButton layoutX="41.0" layoutY="404.0" onAction="#mainMenuButtonPushed" text="Main Menu" />
-                  <JFXButton layoutX="27.0" layoutY="220.0" onAction="#changeImageButtonPushed" text="Change Image" />
+                  <JFXButton layoutX="27.0" layoutY="252.0" onAction="#changeImageButtonPushed" text="Change Image" />
                   <JFXTextField fx:id="username" labelFloat="true" layoutX="238.0" layoutY="70.0" prefHeight="37.0" prefWidth="203.0" promptText="Change Username">
                      <font>
                         <Font size="16.0" />

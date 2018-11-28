@@ -3,7 +3,7 @@
  * Author: Ryan McGuire
  * Date: 10/22/2018
  * This Class holds all the user info pulled from the USERINFO and SCHEDULEINFO table.
- *gg
+ *
  *******************************************/
 
 package users;
@@ -23,7 +23,6 @@ public class User {
   private String destination;
   private Date day;
   private Time time;
-  private boolean userPickedUp;
 
   /**
    * This constructor is used for passing the fields to the USERINFO table
@@ -83,6 +82,16 @@ public class User {
     this.rating = rating;
   }
 
+  /**
+   * This constructor is used for passing the fields to the SCHEDULEINFO table
+   * from the main.MainMenuDriveController and main.MainMenuRideController.
+   * @param userName the username of the user.
+   * @param rating the 5 star rating of the user.
+   * @param location the desired pickup location for the user.
+   * @param destination the desired drop off location for the user.
+   * @param day the desired day for pickup for the user.
+   * @param time the desired time for pickup for the user.
+   **/
   public User(String userName, double rating, String location, String destination, Date day, Time time) {
 
     this.userName = userName;
@@ -180,13 +189,5 @@ public class User {
 
   public void setTime(Time time) {
     this.time = time;
-  }
-
-  public boolean isUserPickedUp() {
-    return userPickedUp;
-  }
-
-  public void setUserPickedUp(boolean userPickedUp) {
-    this.userPickedUp = userPickedUp;
   }
 }

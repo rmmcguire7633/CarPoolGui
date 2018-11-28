@@ -63,6 +63,7 @@
                                 </columns>
                               </TableView>
                               <JFXButton layoutX="656.0" layoutY="476.0" onAction="#reloadButtonPushed" prefHeight="9.0" prefWidth="114.0" text="Reload" />
+                              <Label alignment="CENTER" layoutX="1.0" layoutY="453.0" prefHeight="25.0" prefWidth="899.0" text="(Double Click On The Table To Pick Up A Rider)" />
                            </children></AnchorPane>
               </content>
             </Tab>
