@@ -66,4 +66,5 @@ preferred java IDE or run from the command line.
 * Scott Vanselow for helping with the development of code.
 * Afsal Villan for contributing the primary and secondary color along with the css for the table view.
 * https://emailregex.com/ for the email regex format.
+* Dr. Koufakou for providing guidance and suggestions on how the final product could be.
 
