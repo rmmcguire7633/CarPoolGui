@@ -32,7 +32,7 @@ preferred java IDE or run from the command line.
 2. Unzip file with 7-zip file management.
 3. Drag and drop src folder into a project folder inside your preferred IDE.
 4. Drag and drop the lib folder into a project folder inside your preferred IDE.
-5. Add all dependencies to the project (dependencies are the JAR files located in the lib directory). To do this in IntelliJ, go to file -> Project Structure -> Modules -> Dependencies -> click the add sign located at the top right of the table -> JARs or Directories -> navigate to your project folder then the lib directory and add controlsfx.jar, derby.jar, derbyclient.jar, fontawesomefx.jar, jfoenix.jar.
+5. Add all dependencies to the project (dependencies are the JAR files located in the lib directory). To do this in IntelliJ, go to file -> Project Structure -> Modules -> Dependencies -> click the add sign located at the top right of the table -> JARs or Directories -> navigate to your project folder then the lib directory and add controlsfx.JAR, derby.JAR, derbyclient.JAR, fontawesomefx.JAR, jfoenix.JAR.
 6. Set Run configurations to run from main.MainLogin class.
 
 ##### Using clone repository
