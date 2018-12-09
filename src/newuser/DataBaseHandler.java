@@ -9,7 +9,9 @@
 
 package newuser;
 
+import java.sql.SQLException;
+
 public interface DataBaseHandler {
 
-  boolean checkDatabase(users.User user);
+  boolean checkDatabase(users.User user) throws SQLException;
 }

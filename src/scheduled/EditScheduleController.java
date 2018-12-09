@@ -2,7 +2,8 @@
  *
  * Author: Ryan McGuire on 11/21/18
  * Populates a table with the users scheduled rides from the SCHEDULEINFO table.
- * Allows user to edit the columns LOCATION, DESTINATION, DATE, and TIME from the SCHEDULEINFO table.
+ * Allows user to edit the columns LOCATION, DESTINATION, DATE,
+ * and TIME from the SCHEDULEINFO table.
  * Allows the user to navigate to the scheduled.ViewDriver.fxml scene.
  *
  *******************************************/
@@ -12,6 +13,8 @@ package scheduled;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTimePicker;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -22,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import users.User;
 
-public class EditScheduleController extends main.MainMenuDriveController{
+public class EditScheduleController extends main.MainMenuDriveController {
 
   @FXML private JFXComboBox pickUp;
   @FXML private JFXComboBox dropOff;
@@ -124,24 +128,36 @@ public class EditScheduleController extends main.MainMenuDriveController{
 
   /**
    * When this method is called, it will set the values inside the table.
-   * The values are pulled from the SCHEDULEINGO table columns LOCATION, DESTINATION,
+   * The values are pulled from the SCHEDULEINFO table columns LOCATION, DESTINATION,
    * DATE and TIME.
    **/
   public ObservableList<User> getRiderInfo() throws SQLException {
 
     ObservableList<users.User> scheduleInfo = FXCollections.observableArrayList();
 
-    Connection connection;
+    final String query = "SELECT * FROM SCHEDULEINFO WHERE USERNAME = ? AND DATE >= CURRENT_DATE";
     PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "SELECT * FROM SCHEDULEINFO WHERE USERNAME = ? AND DATE >= CURRENT_DATE";
-
-      statement = connection.prepareStatement(query);
       statement.setString(1, user.getUserName());
 
       ResultSet resultSet = statement.executeQuery();
@@ -151,6 +167,10 @@ public class EditScheduleController extends main.MainMenuDriveController{
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
 
     return scheduleInfo;
@@ -161,25 +181,37 @@ public class EditScheduleController extends main.MainMenuDriveController{
    * TIME will be updated with the information with in the combobox, pickdate, and picktime.
    * The selection that will be updated is the row the user has active on the table view.
    **/
-  public void changeScheduleInfo(){
+  public void changeScheduleInfo() throws SQLException {
 
-    Connection connection;
+    final String query = "UPDATE SCHEDULEINFO SET LOCATION=?, DESTINATION=?, DATE=?, TIME=? "
+        + "WHERE USERNAME=? AND LOCATION=? AND DESTINATION=? AND DATE=? AND TIME=?";
     PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
+      final String date = user.getDay().toString();
+      final String time = user.getTime().toString();
+      final String date2 = person.getDay().toString();
+      final String time2 = person.getTime().toString();
 
-      String query = "UPDATE SCHEDULEINFO SET LOCATION=?, DESTINATION=?, DATE=?, TIME=?"
-          + "WHERE USERNAME=? AND LOCATION=? AND DESTINATION=? AND DATE=? AND TIME=?";
-
-      String date = user.getDay().toString();
-      String time = user.getTime().toString();
-      String date2 = person.getDay().toString();
-      String time2 = person.getTime().toString();
-
-      statement = connection.prepareStatement(query);
       statement.setString(1, user.getLocation());
       statement.setString(2, user.getDestination());
       statement.setString(3, date);
@@ -196,13 +228,17 @@ public class EditScheduleController extends main.MainMenuDriveController{
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
   }
 
   /**
    * Used to set the information from the selected row to the person field.
    **/
-  public void setPerson (users.User person){
+  public void setPerson(users.User person) {
 
     this.person = person;
   }

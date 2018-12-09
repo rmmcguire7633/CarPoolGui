@@ -12,11 +12,14 @@ package backgroundcheck;
 
 import com.jfoenix.controls.JFXProgressBar;
 import com.sun.jmx.snmp.tasks.Task;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.Timer;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -61,7 +64,13 @@ public class BackgroundCheckController {
         new KeyFrame(Duration.seconds(6), e -> {
 
           //changes user to a driver user when the progress bar is finished.
-          changeToDriver();
+          try {
+
+            changeToDriver();
+          } catch (SQLException e1) {
+
+            System.out.println(e1);
+          }
 
           //changes the scene once the progress bar is done.
           Stage stage = main.MainLogin.getPrimaryStage();
@@ -88,21 +97,35 @@ public class BackgroundCheckController {
   /**
    * When this method is called it will update the  table USERINFO's DRIVER column to true.
    **/
-  private void changeToDriver () {
+  private void changeToDriver() throws SQLException {
 
     user = new login.LoginController().getUser();
     user.setADriver(true);
 
     Connection connection;
 
+    final String query = "UPDATE USERINFO SET DRIVER=? WHERE USERID=?";
+    PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl, "ryan", "ryan");
-
-      String query = "UPDATE USERINFO SET DRIVER=? WHERE USERID=?";
-
-      PreparedStatement statement = connection.prepareStatement(query);
       statement.setBoolean(1, user.getIsAdriver());
       statement.setInt(2, user.getUserId());
 
@@ -113,6 +136,10 @@ public class BackgroundCheckController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
   }
 }

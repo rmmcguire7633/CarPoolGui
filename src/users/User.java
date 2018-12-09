@@ -92,7 +92,8 @@ public class User {
    * @param day the desired day for pickup for the user.
    * @param time the desired time for pickup for the user.
    **/
-  public User(String userName, double rating, String location, String destination, Date day, Time time) {
+  public User(String userName, double rating, String location,
+      String destination, Date day, Time time) {
 
     this.userName = userName;
     this.rating = rating;
@@ -156,38 +157,51 @@ public class User {
   }
 
   public void setUserId(int userId) {
+
     this.userId = userId;
   }
 
   public String getLocation() {
+
     return location;
   }
 
   public void setLocation(String location) {
+
     this.location = location;
   }
 
   public String getDestination() {
+
     return destination;
   }
 
+  /**
+   * This method is user to set the destination the user would like to be dropped off at.
+   * @param destination the destination of the user.
+   **/
   public void setDestination(String destination) {
+
     this.destination = destination;
   }
 
   public Date getDay() {
+
     return day;
   }
 
   public void setDay(Date date) {
+
     this.day = date;
   }
 
   public Time getTime() {
+
     return time;
   }
 
   public void setTime(Time time) {
+
     this.time = time;
   }
 }

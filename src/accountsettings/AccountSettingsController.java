@@ -15,11 +15,15 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
@@ -56,7 +60,7 @@ public class AccountSettingsController {
 
   /***
    *  <p>
-   * Transfers the users.User type created in login.Logincontroller that holds all the
+   * Transfers the users.user type created in login.Logincontroller that holds all the
    * user information from the database.
    * </p>
    * **/
@@ -126,19 +130,34 @@ public class AccountSettingsController {
    * @param user the person using the application.
    * @return returns true if username is not taken.
    **/
-  public boolean updateDatabase(users.User user) {
+  public boolean updateDatabase(users.User user) throws SQLException {
 
     Connection connection;
     boolean userDoesNotExist = false;
 
+    final String query = "UPDATE USERINFO SET USERNAME=?, PASSWORD=?, EMAIL=? WHERE USERID = ?";
+    PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
+
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "UPDATE USERINFO SET USERNAME=?, PASSWORD=?, EMAIL=? WHERE USERID = ?";
-
-      PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, user.getUserName());
       statement.setString(2, user.getPassword());
       statement.setString(3, user.getEmail());
@@ -153,6 +172,9 @@ public class AccountSettingsController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
     }
 
     return userDoesNotExist;
@@ -162,7 +184,7 @@ public class AccountSettingsController {
    * When this button is pushed, the username field is checked for correct format.
    * If username field is in correct format, will allow user to update username in USERINFO table;
    * **/
-  public void changeUsernameButton(ActionEvent actionEvent) {
+  public void changeUsernameButton(ActionEvent actionEvent) throws SQLException {
 
     //if user name text field is not empty.
     if (!(username.getText().trim().isEmpty())) {
@@ -192,7 +214,7 @@ public class AccountSettingsController {
    * When this button is pushed, the email field is checked for correct format.
    * If email field is in correct format, will allow user to update email in USERINFO table;
    * **/
-  public void changeEmailButton(ActionEvent actionEvent) {
+  public void changeEmailButton(ActionEvent actionEvent) throws SQLException {
 
     //if email text field is not empty.
     if (!(email.getText().trim().isEmpty())) {
@@ -222,7 +244,7 @@ public class AccountSettingsController {
    * If pswd field is in correct format and equals pswd2, will allow
    * user to update password in USERINFO table.
    * **/
-  public void changePasswordButton(ActionEvent actionEvent) {
+  public void changePasswordButton(ActionEvent actionEvent) throws SQLException {
 
     //if pswd field is not empty and matches pswd2.
     if (!(pswd.getText().trim().isEmpty()) && pswd.getText().equals(pswd2.getText())) {
@@ -294,6 +316,13 @@ public class AccountSettingsController {
     return userPressedOk;
   }
 
+  /**
+   * This method will change to the main.MinaMenuDrive.fxml scene if the isAdriver boolean for the
+   * type users.user is true.
+   * The scene will change to main.MainMenuRide.fxml if it is false.
+   * @param user The user's information pulled from the database, only the isAdriver field is used
+   *      in this method.
+   **/
   public void getDriverOrRiderScene(users.User user) throws IOException {
 
     if (user.getIsAdriver()) {

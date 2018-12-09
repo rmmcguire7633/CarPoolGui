@@ -8,11 +8,14 @@
 
 package thankyoubox;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +47,7 @@ public class ThankYouRideController {
    * RATING column USERINFO table.
    * This method will also change the scene to scheduled.ViewDriver.fxml.
    **/
-  public void submitButtonPushed(ActionEvent actionEvent) throws IOException {
+  public void submitButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
 
     performRatingCalculation(driver);
 
@@ -62,9 +65,9 @@ public class ThankYouRideController {
    * RATING column USERINFO table.
    * This method will also display a confirmation dialogue box to thank the user.
    * @param person the type created from the row selection in the table view located in
-   * scheduled.ViewDriverController.
+   *      scheduled.ViewDriverController.
    **/
-  public void performRatingCalculation(users.User person) {
+  public void performRatingCalculation(users.User person) throws SQLException {
 
     double rated = rating.getRating();
 
@@ -79,21 +82,33 @@ public class ThankYouRideController {
    * When this method is called, it will add the new calculated user rating for the driver to the
    * RATING column in the USERINFO table.
    * @param person the the type created from the row selection in the table view located in
-   * scheduled.ViewDriverController.
+   *        scheduled.ViewDriverController.
    **/
-  public static void pushAverageRatingToDatabase(users.User person) {
+  public static void pushAverageRatingToDatabase(users.User person) throws SQLException {
 
-    Connection connection;
+    final String query = "UPDATE USERINFO SET RATING=? WHERE USERNAME=?";
     PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "UPDATE USERINFO SET RATING=? WHERE USERNAME=?";
-
-      statement = connection.prepareStatement(query);
       statement.setDouble(1, person.getRating());
       statement.setString(2, person.getUserName());
 
@@ -104,6 +119,10 @@ public class ThankYouRideController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
   }
 }

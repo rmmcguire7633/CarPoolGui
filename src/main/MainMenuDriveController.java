@@ -17,6 +17,8 @@ package main;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTimePicker;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -27,6 +29,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,6 +44,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import login.LoginController;
 import newuser.Validator;
 import org.controlsfx.control.Rating;
 import users.User;
@@ -125,18 +129,34 @@ public class MainMenuDriveController {
     ObservableList<users.User> scheduleInfo = FXCollections.observableArrayList();
 
     Connection connection;
-    Statement statement;
+
+    final String query = "SELECT * FROM SCHEDULEINFO WHERE DATE >= CURRENT_DATE AND DRIVER IS NULL";
+    PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+
+      props.load(in);
+    } catch (FileNotFoundException e) {
+
+      e.printStackTrace();
+    } catch (IOException e) {
+
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "SELECT * FROM SCHEDULEINFO WHERE DATE >= CURRENT_DATE AND DRIVER IS NULL";
-
-      statement = connection.createStatement();
-
-      ResultSet resultSet = statement.executeQuery(query);
+      ResultSet resultSet = statement.executeQuery();
 
       getResultSet(scheduleInfo, resultSet);
 
@@ -146,6 +166,10 @@ public class MainMenuDriveController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
 
     return scheduleInfo;
@@ -192,7 +216,7 @@ public class MainMenuDriveController {
    * to see if they are blank.
    * If they arte not blank, the information in the fields will be pushed to the SCHEDULEINFO table.
   **/
-  public void scheduleButtonPushed(ActionEvent actionEvent) throws IOException {
+  public void scheduleButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
 
     if (!(pickUp.getValue() == null && dropOff.getValue() == null)
         && calendarDate.getValue() != null && time.getValue() != null) {
@@ -204,8 +228,10 @@ public class MainMenuDriveController {
 
       pushToDatabase(user);
 
-      timeOf = java.sql.Time.valueOf(time.getValue());
-      dayOf = java.sql.Date.valueOf(calendarDate.getValue());
+      Time timeSelected = java.sql.Time.valueOf(time.getValue());
+      Date dateSelected = java.sql.Date.valueOf(calendarDate.getValue());
+
+      setDateTime(dateSelected, timeSelected);
 
       Validator.successfulBox("Success!", "Successfully Scheduled");
 
@@ -224,26 +250,65 @@ public class MainMenuDriveController {
   }
 
   /**
+   * This method is used to set the staic timeOf and dayOf field.
+   * @param dateselected the date the user selects from the pickDate field.
+   * @param timeSelected the time the user selects from the picTime field.
+   **/
+  public static void setDayAndTimeSelected(Date dateselected, Time timeSelected) {
+
+    timeOf = timeSelected;
+    dayOf = dateselected;
+
+  }
+
+  /**
+   * This method is used to be able to set the static fields,
+   * timeOf and dayOf in an instance method.
+   * @param day the date the user selects from the pickDate field.
+   * @param time the time the user selects from the picTime field.
+   **/
+  public void setDateTime(Date day, Time time) {
+
+    setDayAndTimeSelected(day, time);
+  }
+
+  /**
    * When this method is called, the database table,
    * SCHEDULEINFO will insert into the LOCATION, DESTINATION,
    * DATE, TIME column from the combo box field, pickdate field, and picktime field.
    * @param user the person using the interface.
    **/
-  public void pushToDatabase(users.User user) {
+  public void pushToDatabase(users.User user) throws SQLException {
 
-    Connection connection;
+    boolean validation = false;
+
+    final String query = "INSERT INTO SCHEDULEINFO (USERNAME, LOCATION, DESTINATION, DATE, TIME ) "
+        + "VALUES (?,?,?,?,?)";
+    PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = " INSERT INTO SCHEDULEINFO (USERNAME, LOCATION, DESTINATION, DATE, TIME) "
-          + "VALUES (?, ?, ?, ?, ?)";
       String date = user.getDay().toString();
       String time = user.getTime().toString();
 
-      PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, user.getUserName());
       statement.setString(2, user.getLocation());
       statement.setString(3, user.getDestination());
@@ -257,6 +322,10 @@ public class MainMenuDriveController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
   }
 
@@ -283,7 +352,7 @@ public class MainMenuDriveController {
   **/
   public Date getDayOf() {
 
-    return dayOf;
+    return new Date(dayOf.getTime());
   }
 
   /**
@@ -294,7 +363,7 @@ public class MainMenuDriveController {
    **/
   public void getStartUp() {
 
-    user = new login.LoginController().getUser();
+    setUser(new login.LoginController().getUser());
     userLabel.setText(user.getUserName());
     ratingHolder.setText(user.getRating() + "/5");
 
@@ -319,10 +388,28 @@ public class MainMenuDriveController {
   }
 
   /**
-   * This method allows the user's information to be passed to another class.
-   * @return users.User the information of the person using the program.
+   * This method is used to set the static user field.
+   * @param users the data from the person using the application.
    **/
-  public users.User getUser () {
+  public static void setUser(users.User users) {
+
+    user = users;
+  }
+
+  /**
+   * This method is used to be able to set the static field user in an instance method.
+   * @param user2 the data from the person using the application.
+   **/
+  public void user(users.User user2) {
+
+    setUser(user2);
+  }
+
+  /**
+   * This method allows the user's information to be passed to another class.
+   * @return users.user the information of the person using the program.
+   **/
+  public users.User getUser() {
 
     return user;
   }
@@ -343,39 +430,49 @@ public class MainMenuDriveController {
 
   /**
    * When the user clicks twice on the table in the drive tab, it will create a new instant of the
-   * users.User type from the information in the table.
+   * users.user type from the information in the table.
    * This method will allow the driver to confirm to pick up a rider in the table in the drive tab.
    **/
-  public void displaySelection(MouseEvent mouseEvent) throws IOException {
+  public void displaySelection(MouseEvent mouseEvent) throws IOException, SQLException {
 
     if (mouseEvent.getClickCount() == 2) {
 
-      person = table.getSelectionModel().getSelectedItem();
+      userSelected(table.getSelectionModel().getSelectedItem());
 
 
-     Boolean userSelection = Validator.confirmationBox("Confirm Schedule",
+      Boolean userSelection = Validator.confirmationBox("Confirm Schedule",
           "Schedule to pickup " + person.getUserName() + "?");
 
-     // if user presses ok in the dialog box.
-     if (userSelection) {
+      // if user presses ok in the dialog box.
+      if (userSelection) {
 
-       //pushed the current users USERNAME into the SCHEDULEINFO table DRIVER column.
-       scheduleRide(person);
+        //pushed the current users USERNAME into the SCHEDULEINFO table DRIVER column.
+        scheduleRide(person);
 
-       Stage stage = main.MainLogin.getPrimaryStage();
+        Stage stage = main.MainLogin.getPrimaryStage();
 
-       Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/ThankYouDrive.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/thankyoubox/ThankYouDrive.fxml"));
 
-       stage.setScene(new Scene(parent));
-       stage.show();
+        stage.setScene(new Scene(parent));
+        stage.show();
       }
     }
+  }
+
+  public static void setSelectedUser(users.User user) {
+
+    person = user;
+  }
+
+  public void userSelected(users.User user2) {
+
+    setSelectedUser(user2);
   }
 
   /**
    * Allows the info from the table in the drive tab that the user selected to be passed
    * to other classes.
-   * @return users.User the information from the selected row from the table in drive tab.
+   * @return users.user the information from the selected row from the table in drive tab.
    **/
   public users.User getPerson() {
 
@@ -387,21 +484,35 @@ public class MainMenuDriveController {
    * the SCHEDULEINFO table DRIVER column.
    * @param person the rider info that is selected from the table in drive tab.
    **/
-  public void scheduleRide (users.User person) {
+  public void scheduleRide(users.User person) throws SQLException {
 
-    Connection connection;
+    final String query = "UPDATE SCHEDULEINFO SET DRIVER=? "
+        + "WHERE USERNAME = ? AND DATE=? AND TIME=?";
+    PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
-
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "UPDATE SCHEDULEINFO SET DRIVER=? WHERE USERNAME = ? AND DATE=? AND TIME=?";
 
       String date = person.getDay().toString();
       String time = person.getTime().toString();
 
-      PreparedStatement statement = connection.prepareStatement(query);
       statement.setString(1, user.getUserName());
       statement.setString(2, person.getUserName());
       statement.setString(3, date);
@@ -416,6 +527,10 @@ public class MainMenuDriveController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
   }
 

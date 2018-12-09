@@ -18,10 +18,14 @@ package newuser;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +51,7 @@ public class NewUserController implements DataBaseHandler {
    * created in the USERINFO table with information
    * from the textfield and the scene will change to the LoginScene.fxml.
    * */
-  public void createNewUserButtonPushed(ActionEvent actionEvent) throws IOException {
+  public void createNewUserButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
 
     //returns true if password is in the correct format.
     Boolean resultPassword = passwordValidator.validate(pswd.getText());
@@ -89,22 +93,33 @@ public class NewUserController implements DataBaseHandler {
    * @param user user type with the data from the text fields.
    * @return returns true if username from textfield is not in the USERINFO table.
    **/
-  public boolean checkDatabase(users.User user) {
+  public boolean checkDatabase(users.User user) throws SQLException {
 
-    Connection connection = null;
     Boolean userNameExist = false;
 
+    final String query = "INSERT INTO userinfo (userName,password,email,driver) "
+        + "VALUES (?, ?, ?, ?)";
+    PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
+
     try {
-
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      System.out.println("connected to database");
-
-      String query = " INSERT INTO userinfo (userName,password,email,driver)"
-          + "VALUES (?, ?, ?, ?)";
-
-      PreparedStatement statement = connection.prepareStatement(query);
 
       statement.setString(1, user.getUserName());
       statement.setString(2, user.getPassword());
@@ -119,6 +134,10 @@ public class NewUserController implements DataBaseHandler {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
 
     return userNameExist;
@@ -136,7 +155,7 @@ public class NewUserController implements DataBaseHandler {
    **/
   public void checkValidation(boolean resultUserName, boolean resultEmail, boolean resultPassword,
       String password2, DataBaseHandler checkDataBase, users.User user)
-      throws IOException {
+      throws IOException, SQLException {
 
     //if password has one number is between 6-20 characters long and both
     // password fields are the same and user name is between 6-20 characters long and emil
@@ -147,7 +166,7 @@ public class NewUserController implements DataBaseHandler {
 
       if (userDoesNotExist) {
 
-        Validator.successfulBox("Success!", "User Successfully Created!");
+        Validator.successfulBox("Success!", "user Successfully Created!");
 
         Stage stage = main.MainLogin.getPrimaryStage();
 

@@ -13,6 +13,8 @@
 
 package scheduled;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,8 +44,8 @@ public class ViewDriverController {
   //the current user
   private users.User user = new main.MainMenuDriveController().getUser();
 
-  //the User type created by the row selection of the table.
-  static private users.User driver;
+  //the user type created by the row selection of the table.
+  static users.User driver;
 
   //all the table view fields.
   @FXML private TableView<User> table;
@@ -74,22 +77,33 @@ public class ViewDriverController {
 
     ObservableList<users.User> scheduleInfo = FXCollections.observableArrayList();
 
-    Connection connection;
+    final String query = "SELECT SCHEDULEINFO.DRIVER, USERINFO.RATING, SCHEDULEINFO.LOCATION, "
+        + "SCHEDULEINFO.DESTINATION, SCHEDULEINFO.DATE, SCHEDULEINFO.TIME "
+        + "From SCHEDULEINFO INNER JOIN USERINFO ON SCHEDULEINFO.DRIVER = USERINFO.USERNAME "
+        + "WHERE SCHEDULEINFO.DATE >= CURRENT_DATE "
+        + "AND SCHEDULEINFO.DRIVER = USERINFO.USERNAME AND SCHEDULEINFO.USERNAME = ?";
     PreparedStatement statement;
+
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
 
     try {
 
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "SELECT SCHEDULEINFO.DRIVER, USERINFO.RATING, SCHEDULEINFO.LOCATION,"
-          + " SCHEDULEINFO.DESTINATION, SCHEDULEINFO.DATE, SCHEDULEINFO.TIME "
-          + "From SCHEDULEINFO "
-          + "INNER JOIN USERINFO "
-          + "ON SCHEDULEINFO.DRIVER = USERINFO.USERNAME WHERE SCHEDULEINFO.DATE >= CURRENT_DATE "
-          + "AND SCHEDULEINFO.DRIVER = USERINFO.USERNAME AND SCHEDULEINFO.USERNAME = ?";
-
-      statement = connection.prepareStatement(query);
       statement.setString(1, user.getUserName());
 
       ResultSet resultSet = statement.executeQuery();
@@ -112,6 +126,10 @@ public class ViewDriverController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
 
     return scheduleInfo;
@@ -155,9 +173,9 @@ public class ViewDriverController {
 
     if (mouseEvent.getClickCount() == 2) {
 
-      driver = table.getSelectionModel().getSelectedItem();
+      setDriver(table.getSelectionModel().getSelectedItem());
 
-      boolean userPressedOk = Validator.confirmationBox("Confirmation" ,
+      boolean userPressedOk = Validator.confirmationBox("Confirmation",
           "Would you like "
           + driver.getUserName() + " to pick you up?");
 
@@ -177,23 +195,52 @@ public class ViewDriverController {
   }
 
   /**
+   * This method is used to set the staic driver field.
+   * @param user the selected driver type from the table.
+   **/
+  public static void setStaticDriver(users.User user) {
+
+    driver = user;
+  }
+
+  /**
+   * This method is used to be able to set the static fields, driver in an instance method.
+   * @param user the selected driver type from the table.
+   **/
+  public void setDriver(users.User user) {
+
+    setStaticDriver(user);
+  }
+
+  /**
    * When this method is called, it will delete the selected info from the tableview and the
    * information from that row will delete the row in SCHEDULEINFO.
    **/
-  public void clearRow () {
+  public void clearRow() throws SQLException {
 
-    Connection connection;
+    final String query = "DELETE FROM SCHEDULEINFO WHERE USERNAME=? AND LOCATION=? "
+        + "AND DESTINATION=? AND DATE=? AND TIME=? AND DRIVER=?";
     PreparedStatement statement;
 
+    Properties props = new Properties();
+
+    try (FileInputStream in = new FileInputStream("dir/db.properties")) {
+      props.load(in);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String username = props.getProperty("jdbc.username");
+    String dataPassword = props.getProperty("jdbc.password");
+
+    Connection connection = DriverManager.getConnection(
+        databasecontroller.DatabaseInfo.getDatabaseUrl(), username, dataPassword);
+
+    statement = connection.prepareStatement(query);
+
     try {
-
-      final String databaseUrl = "jdbc:derby:C:lib\\carpool";
-      connection = DriverManager.getConnection(databaseUrl,"ryan", "ryan");
-
-      String query = "DELETE FROM SCHEDULEINFO WHERE USERNAME=? AND LOCATION=? AND DESTINATION=?"
-          + " AND DATE=? AND TIME=? AND DRIVER=?";
-
-      statement = connection.prepareStatement(query);
 
       String date = driver.getDay().toString();
       String time = driver.getTime().toString();
@@ -211,13 +258,17 @@ public class ViewDriverController {
     } catch (Exception e) {
 
       System.out.println(e);
+    } finally {
+
+      statement.close();
+      connection.close();
     }
   }
 
   /**
    * This method allows the user type driver to be passed to another class.
    **/
-  public users.User getDriver () {
+  public users.User getDriver() {
 
     return driver;
   }
