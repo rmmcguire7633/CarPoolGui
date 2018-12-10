@@ -7,6 +7,12 @@ A Java FX application that allows users to request carpooling services. This pro
 
 [JavaDoc](https://rmmcguire7633.github.io/CarPoolGui/)
 
+## Components To Connect To Database
+
+This is to connect to a Derby Database(local host)
+
+Connection connection = DriverManager.getConnection("jdbc:derby:YourDirectoryHere", "jdbc.username", "jdbc.password"); 
+
 ## Getting Started
 
 To get started clone or download code from this repository and place into your 
