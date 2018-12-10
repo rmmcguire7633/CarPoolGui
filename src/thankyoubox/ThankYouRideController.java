@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire on 11/21/18
+ * @author - Ryan McGuire on 11/21/18
  * This scene allows the user to rate the the driver they picked from the tableview in
  * scheduled.ViewDriverController.
  *

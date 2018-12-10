@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 11/2/2018
  * Used as the controller for the MainMenuDrive.fxml scene.
  * Allows user to schedule a day and time for transportation to destination.
@@ -75,7 +75,7 @@ public class MainMenuDriveController {
   @FXML private TableColumn<users.User, String> timeCol;
 
   private static Time timeOf;
-  private static Date dayOf;
+  private static LocalDate dayOf;
 
   //the rider the user clicked on in the table in the drive tab.
   private static users.User person;
@@ -204,7 +204,7 @@ public class MainMenuDriveController {
       String userName = resultSet.getString("USERNAME");
       String location = resultSet.getString("LOCATION");
       String destination = resultSet.getString("DESTINATION");
-      Date day = resultSet.getDate("DATE");
+      LocalDate day = resultSet.getDate("DATE").toLocalDate();
       Time time = resultSet.getTime("TIME");
 
       scheduleInfo.add(new User(userName, location, destination, day, time));
@@ -221,15 +221,17 @@ public class MainMenuDriveController {
     if (!(pickUp.getValue() == null && dropOff.getValue() == null)
         && calendarDate.getValue() != null && time.getValue() != null) {
 
+      LocalDate date = java.sql.Date.valueOf(calendarDate.getValue()).toLocalDate();
+
       user.setLocation((String) pickUp.getValue());
       user.setDestination((String) dropOff.getValue());
-      user.setDay(java.sql.Date.valueOf(calendarDate.getValue()));
+      user.setDay(date);
       user.setTime(java.sql.Time.valueOf(time.getValue()));
 
       pushToDatabase(user);
 
       Time timeSelected = java.sql.Time.valueOf(time.getValue());
-      Date dateSelected = java.sql.Date.valueOf(calendarDate.getValue());
+      LocalDate dateSelected = java.sql.Date.valueOf(calendarDate.getValue()).toLocalDate();
 
       setDateTime(dateSelected, timeSelected);
 
@@ -254,7 +256,7 @@ public class MainMenuDriveController {
    * @param dateselected the date the user selects from the pickDate field.
    * @param timeSelected the time the user selects from the picTime field.
    **/
-  public static void setDayAndTimeSelected(Date dateselected, Time timeSelected) {
+  public static void setDayAndTimeSelected(LocalDate dateselected, Time timeSelected) {
 
     timeOf = timeSelected;
     dayOf = dateselected;
@@ -267,7 +269,7 @@ public class MainMenuDriveController {
    * @param day the date the user selects from the pickDate field.
    * @param time the time the user selects from the picTime field.
    **/
-  public void setDateTime(Date day, Time time) {
+  public void setDateTime(LocalDate day, Time time) {
 
     setDayAndTimeSelected(day, time);
   }
@@ -350,9 +352,9 @@ public class MainMenuDriveController {
    * Gets the day the user entered.
    * @return Date allows the date from the pickdate field to be passed to another class.
   **/
-  public Date getDayOf() {
+  public LocalDate getDayOf() {
 
-    return new Date(dayOf.getTime());
+    return dayOf;
   }
 
   /**

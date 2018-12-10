@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 11/17/2018
  * When this scene loads, a progress bar will display on the screen.
  * When the progress bar reaches the end it will load backgroundcheck.BackGroundCheckSubmitted.fxml.

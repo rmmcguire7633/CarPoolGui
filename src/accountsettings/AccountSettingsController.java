@@ -1,7 +1,7 @@
 /*******************************************
  *
- * Author: James Hood on 10/28/18
- * Modified by Ryan McGuire
+ * @author - James Hood on 10/28/18
+ * @author -  Ryan McGuire
  * James-created scene and the functionality of being able to change picture.
  * Ryan- changed scene and added update function to the database on 11/13/2018.
  * Ryan- Added format check for text fields and alert boxes to let user know of errors and

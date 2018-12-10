@@ -1,3 +1,11 @@
+/*******************************************
+ *
+ * @author - Ryan McGuire
+ * Date: 12/08/2018
+ * This class holds the database url.
+ *
+ *******************************************/
+
 package databasecontroller;
 
 import java.io.FileInputStream;

@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 10/23/2018
  * This scene accesses the database to check if usernameTextField and password are valid.
  * If the user is valid it will promt the user and change the scene depending on the DRIVER column

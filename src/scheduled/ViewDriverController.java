@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 11/17/2018
  * This scene will display a table that contains information from both SCHEDULEINFO and
  * USERINFO table.
@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -114,7 +115,7 @@ public class ViewDriverController {
         Double rating = resultSet.getDouble("RATING");
         String location = resultSet.getString("LOCATION");
         String destination = resultSet.getString("DESTINATION");
-        Date day = resultSet.getDate("DATE");
+        LocalDate day = resultSet.getDate("DATE").toLocalDate();
         Time time = resultSet.getTime("TIME");
 
         scheduleInfo.add(new users.User(driver, rating, location, destination, day, time));

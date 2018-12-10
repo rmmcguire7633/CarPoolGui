@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 11/17/2018
  * This scene will display how long the user must wait for the driver based
  * on the current day and time.
@@ -48,7 +48,9 @@ public class ScheduledAlertController {
     timeNow = LocalTime.now();
     currentTime = Time.valueOf(timeNow);
 
-    dayOf = new MainMenuDriveController().getDayOf();
+    LocalDate date = new MainMenuDriveController().getDayOf();
+
+    dayOf = java.sql.Date.valueOf(date);
     dateNow = LocalDate.now();
     currentDay = Date.valueOf(dateNow);
 

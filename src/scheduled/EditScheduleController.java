@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire on 11/21/18
+ * @author - Ryan McGuire on 11/21/18
  * Populates a table with the users scheduled rides from the SCHEDULEINFO table.
  * Allows user to edit the columns LOCATION, DESTINATION, DATE,
  * and TIME from the SCHEDULEINFO table.
@@ -97,7 +97,8 @@ public class EditScheduleController extends main.MainMenuDriveController {
 
     if (calendarDate.getValue() != null) {
 
-      user.setDay(java.sql.Date.valueOf(calendarDate.getValue()));
+      LocalDate date = java.sql.Date.valueOf(calendarDate.getValue()).toLocalDate();
+      user.setDay(date);
     } else {
 
       user.setDay(person.getDay());

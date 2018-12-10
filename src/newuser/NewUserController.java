@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ *@author - Ryan McGuire
  * Date: 10/25/2018
  * Contains the controller for the NewUser scene.
  * This class creates a new row into the USERINFO table from the input provided by the user.

@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 11/17/2018
  * Same functions as the MainMenuDriveController with no table.
  * Table is replaced with text fields asking user for info so user can be authorized to drive.

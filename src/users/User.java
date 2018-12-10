@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 10/22/2018
  * This Class holds all the user info pulled from the USERINFO and SCHEDULEINFO table.
  *
@@ -9,6 +9,7 @@
 package users;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class User {
@@ -21,7 +22,7 @@ public class User {
   private double rating;
   private String location;
   private String destination;
-  private Date day;
+  private LocalDate day;
   private Time time;
 
   /**
@@ -33,7 +34,7 @@ public class User {
    * @param day the day the user would like to bne picked up.
    * @param time the time the user would like to be picked up.
    **/
-  public User(String username, String location, String destination, Date day, Time time) {
+  public User(String username, String location, String destination, LocalDate day, Time time) {
 
     this.userName = username;
     this.location = location;
@@ -93,7 +94,7 @@ public class User {
    * @param time the desired time for pickup for the user.
    **/
   public User(String userName, double rating, String location,
-      String destination, Date day, Time time) {
+      String destination, LocalDate day, Time time) {
 
     this.userName = userName;
     this.rating = rating;
@@ -185,12 +186,12 @@ public class User {
     this.destination = destination;
   }
 
-  public Date getDay() {
+  public LocalDate getDay() {
 
     return day;
   }
 
-  public void setDay(Date date) {
+  public void setDay(LocalDate date) {
 
     this.day = date;
   }

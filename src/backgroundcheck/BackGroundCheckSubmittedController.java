@@ -1,6 +1,6 @@
 /*******************************************
  *
- * Author: Ryan McGuire
+ * @author - Ryan McGuire
  * Date: 11/17/2018
  * This scene is used to alert the user that they are now able to drive for the carpooling app.
  *
