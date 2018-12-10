@@ -3,7 +3,9 @@
 A Java FX application that allows users to request carpooling services. This program allows for schedule matching to provide efficiency for users requesting a ride and users requesting to drive. A new user can schedule a ride at their desired pickup location and time. For a user to request to drive, they must submit a background checking by providing their driver ID, vehicle registration, insurance provider and policy number. Users will also be able to rate their experience with other users.
 ![gcihvrfvts](https://user-images.githubusercontent.com/35510316/49245619-e67d5f00-f3e0-11e8-83a0-e4e5188f5d38.gif)
 
+## JavaDoc
 
+[JavaDoc](https://github.com/rmmcguire7633/CarPoolGui/tree/master/docs/javadoc)
 
 ## Getting Started
 
