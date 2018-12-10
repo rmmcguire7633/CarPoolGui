@@ -5,7 +5,7 @@ A Java FX application that allows users to request carpooling services. This pro
 
 ## JavaDoc
 
-[JavaDoc](https://github.com/rmmcguire7633/CarPoolGui/tree/master/docs/javadoc)
+[JavaDoc](https://rmmcguire7633.github.io/CarPoolGui/)
 
 ## Getting Started
 
