@@ -13,6 +13,10 @@ This is to connect to a Derby Database(local host)
 
 Connection connection = DriverManager.getConnection("jdbc:derby:YourDirectoryHere", "jdbc.username", "jdbc.password"); 
 
+## GUI Design Principals
+
+This program adheres to GUI design principals by keeping the user in mind. In scenes with multiple text fields, the user can tab through to the next text field in order. Buttons that require a user input are set to default, so the user does not have to click the button after entering information into the text fields. Buttons are named so the user can easily know what they do. There are labels with instructions on how to operate a function. The program does not allow a user to enter invalid information and will alert the user of the invalid information.
+
 ## Getting Started
 
 To get started clone or download code from this repository and place into your 
