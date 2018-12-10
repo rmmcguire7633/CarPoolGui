@@ -1,13 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire on 11/21/18
- * Populates a table with the users scheduled rides from the SCHEDULEINFO table.
- * Allows user to edit the columns LOCATION, DESTINATION, DATE,
- * and TIME from the SCHEDULEINFO table.
- * Allows the user to navigate to the scheduled.ViewDriver.fxml scene.
- *
- *******************************************/
-
 package scheduled;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -40,6 +30,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import users.User;
 
+/**
+ * Populates a table with the users scheduled rides from the SCHEDULEINFO table.
+ * Allows user to edit the columns LOCATION, DESTINATION, DATE,
+ * and TIME from the SCHEDULEINFO table.
+ * Allows the user to navigate to the scheduled.ViewDriver.fxml scene.
+ * Date 11/21/2018
+ * @author Ryan McGuire
+ */
 public class EditScheduleController extends main.MainMenuDriveController {
 
   @FXML private JFXComboBox pickUp;
@@ -75,9 +73,9 @@ public class EditScheduleController extends main.MainMenuDriveController {
   /**
    * When this button is pushed, the information from the SCHEDULEINFO tables columns LOCATION,
    * DESTINATION, DATE, and TIME will update to what the user has placed in the text fields.
-   *
-   **/
-  public void confirmChangeButtonPushed(ActionEvent actionEvent) throws SQLException {
+   * @throws SQLException the SQL exception.
+   */
+  public void confirmChangeButtonPushed() throws SQLException {
 
     if (!(pickUp.getSelectionModel().isEmpty())) {
 
@@ -119,7 +117,7 @@ public class EditScheduleController extends main.MainMenuDriveController {
   /**
    * When the table is clicked, the person field will be set to all the values from the table.
    **/
-  public void selectedRow(MouseEvent mouseEvent) {
+  public void selectedRow() {
 
 
     person = table.getSelectionModel().getSelectedItem();
@@ -131,6 +129,7 @@ public class EditScheduleController extends main.MainMenuDriveController {
    * When this method is called, it will set the values inside the table.
    * The values are pulled from the SCHEDULEINFO table columns LOCATION, DESTINATION,
    * DATE and TIME.
+   * @return the list of users pulled from the database.
    **/
   public ObservableList<User> getRiderInfo() throws SQLException {
 
@@ -181,7 +180,8 @@ public class EditScheduleController extends main.MainMenuDriveController {
    * When this method is called, the SCHEDULEINFO table's columns LOCATION, DESTINATION, DATE and
    * TIME will be updated with the information with in the combobox, pickdate, and picktime.
    * The selection that will be updated is the row the user has active on the table view.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   public void changeScheduleInfo() throws SQLException {
 
     final String query = "UPDATE SCHEDULEINFO SET LOCATION=?, DESTINATION=?, DATE=?, TIME=? "
@@ -238,7 +238,8 @@ public class EditScheduleController extends main.MainMenuDriveController {
 
   /**
    * Used to set the information from the selected row to the person field.
-   **/
+   * @param person the selected person from the table view.
+   */
   public void setPerson(users.User person) {
 
     this.person = person;
@@ -248,8 +249,9 @@ public class EditScheduleController extends main.MainMenuDriveController {
    * When this button is pushed, the scene will change to the main.MainMenuDriveControler.fxml
    * if the boolean value (isAdriver) is true, or main.MainMenuRideController.fxml if the value is
    * false.
-   **/
-  public void mainMenuButtonPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   */
+  public void mainMenuButtonPushed() throws IOException {
 
     accountsettings.AccountSettingsController changeScene =
         new accountsettings.AccountSettingsController();
@@ -258,8 +260,9 @@ public class EditScheduleController extends main.MainMenuDriveController {
 
   /**
    * When this button is pushed, the scene will change to the scheduled.ViewDriver.fxml scene.
-   **/
-  public void viewDriverButtonPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   */
+  public void viewDriverButtonPushed() throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
 

@@ -1,12 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire
- * Date: 11/17/2018
- * This scene will display how long the user must wait for the driver based
- * on the current day and time.
- *
- *******************************************/
-
 package scheduled;
 
 import java.io.IOException;
@@ -24,6 +15,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import main.MainMenuDriveController;
 
+/**
+ * This scene will display how long the user must wait for the driver based
+ * on the current day and time.
+ * Date 11/17/2018
+ * @author Ryan McGuire
+ */
 public class ScheduledAlertController {
 
   private Time timeOf;
@@ -42,7 +39,7 @@ public class ScheduledAlertController {
    * When the scene is loaded, the scene will display how long the user must wait for the
    * driver based on the user's pickup time and current time.
    **/
-  public void initialize() throws SQLException {
+  public void initialize() {
 
     timeOf = new MainMenuDriveController().getTimeOf();
     timeNow = LocalTime.now();
@@ -78,8 +75,9 @@ public class ScheduledAlertController {
   /**
    * When this button is pushed, the scene will change to the main.MainMenuDrive.fxml (true)
    * scene or the main.MainMenuRide.fxml (false) scene based on the users isAdriver boolean value.
-   **/
-  public void continueButtonPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   */
+  public void continueButtonPushed() throws IOException {
 
     if (user.getIsAdriver()) {
 

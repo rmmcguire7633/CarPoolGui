@@ -1,16 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire
- * Date: 11/17/2018
- * This scene will display a table that contains information from both SCHEDULEINFO and
- * USERINFO table.
- * SCHEDULEINFO columns displayed - DRIVER, LOCATION, DESTINATION, DATE, TIME.
- * USERINFO columns displayed - RATING.
- * The user will be able to double click the row and confirm the Driver who is picking them up and
- * afterwords will allow the user to rate the driver.
- *
- *******************************************/
-
 package scheduled;
 
 import java.io.FileInputStream;
@@ -40,6 +27,16 @@ import javafx.stage.Stage;
 import newuser.Validator;
 import users.User;
 
+/**
+ * This scene will display a table that contains information from both SCHEDULEINFO and
+ * USERINFO table.
+ * SCHEDULEINFO columns displayed - DRIVER, LOCATION, DESTINATION, DATE, TIME.
+ * USERINFO columns displayed - RATING.
+ * The user will be able to double click the row and confirm the Driver who is picking them up and
+ * afterwords will allow the user to rate the driver.
+ * Date 11/17/2018
+ * @author Ryan McGuire
+ */
 public class ViewDriverController {
 
   //the current user
@@ -61,7 +58,8 @@ public class ViewDriverController {
    * When the scene first loads, it will display the table the holds information from the
    * SCHEDULEINFO table column's DRIVER, LOCATION, DESTINATION, DATE, TIME and the information
    * from the USERINFO table column RATING.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   public void initialize() throws SQLException {
 
     showTable();
@@ -73,7 +71,8 @@ public class ViewDriverController {
    * based on the users username USERNAME column form the SCHEDULEINFO table and
    * from the USERINFO table column RATING based on the DRIVER column in the SCHEDULEINFO table.
    * @return ObservableList the list created from the contents of the database.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   public ObservableList<User> getRiderInfo() throws SQLException {
 
     ObservableList<users.User> scheduleInfo = FXCollections.observableArrayList();
@@ -138,7 +137,8 @@ public class ViewDriverController {
 
   /**
    * When this method is called, the table will display with the designated contents.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   public void showTable() throws SQLException {
 
     driverCol.setCellValueFactory(new PropertyValueFactory<>("userName"));
@@ -153,8 +153,9 @@ public class ViewDriverController {
 
   /**
    * When this button is pushed, the scene will change to the scheduled.EditSchedule.fxml scene.
-   **/
-  public void backButtonPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   */
+  public void backButtonPushed() throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
 
@@ -169,7 +170,10 @@ public class ViewDriverController {
    * When the table is double clicked, the selected row will set the value for the driver field.
    * This method will also display a confirmation box for the user, if the user clicks ok then
    * the scene will change to thankyou.ThankYouRide.fxml scene.
-   **/
+   * @param mouseEvent the selected row of the table view.
+   * @throws SQLException the SQL exception.
+   * @throws IOException the IO exception.
+   */
   public void selectedRow(MouseEvent mouseEvent) throws SQLException, IOException {
 
     if (mouseEvent.getClickCount() == 2) {
@@ -198,7 +202,7 @@ public class ViewDriverController {
   /**
    * This method is used to set the staic driver field.
    * @param user the selected driver type from the table.
-   **/
+   */
   public static void setStaticDriver(users.User user) {
 
     driver = user;
@@ -207,7 +211,7 @@ public class ViewDriverController {
   /**
    * This method is used to be able to set the static fields, driver in an instance method.
    * @param user the selected driver type from the table.
-   **/
+   */
   public void setDriver(users.User user) {
 
     setStaticDriver(user);
@@ -216,7 +220,8 @@ public class ViewDriverController {
   /**
    * When this method is called, it will delete the selected info from the tableview and the
    * information from that row will delete the row in SCHEDULEINFO.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   public void clearRow() throws SQLException {
 
     final String query = "DELETE FROM SCHEDULEINFO WHERE USERNAME=? AND LOCATION=? "
@@ -268,7 +273,8 @@ public class ViewDriverController {
 
   /**
    * This method allows the user type driver to be passed to another class.
-   **/
+   * @return the user type from the row selected by the user.
+   */
   public users.User getDriver() {
 
     return driver;

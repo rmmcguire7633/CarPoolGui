@@ -1,14 +1,3 @@
-/*******************************************
- *
- * @author - James Hood on 10/28/18
- * @author -  Ryan McGuire
- * James-created scene and the functionality of being able to change picture.
- * Ryan- changed scene and added update function to the database on 11/13/2018.
- * Ryan- Added format check for text fields and alert boxes to let user know of errors and
- * successful input on 11/15/2018.
- *
- *******************************************/
-
 package accountsettings;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -43,6 +32,16 @@ import newuser.PasswordValidator;
 import newuser.UserNameValidator;
 import newuser.Validator;
 
+/**
+ * This class is the controller for the AccountSettings.fxml scene.
+ * This class allows user to change their password, email and username.
+ * James created scene and the functionality of being able to change picture.
+ * Ryan changed scene and added update function to the database on 11/13/2018.
+ * Ryan Added format check for text fields and alert boxes to let user know of errors and
+ * successful input on 11/15/2018.
+ * @author James Hood
+ * @author Ryan McGuire
+ */
 public class AccountSettingsController {
 
   @FXML private ImageView imageView;
@@ -71,8 +70,9 @@ public class AccountSettingsController {
 
   /**
    * When this button is pushed, the scene will change to the MainMenuDrive.fxml.
-   * **/
-  public void backMenuPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   * */
+  public void backMenuPushed() throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
 
@@ -84,21 +84,20 @@ public class AccountSettingsController {
 
   /**
    * When this button is pushed, the scene will change to the MainMenu scene.
-   * **/
-  public void mainMenuButtonPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   * */
+  public void mainMenuButtonPushed() throws IOException {
 
     getDriverOrRiderScene(user);
   }
-
-
 
   /***
    * <p>
    * When this button is pushed, it will open the users files and allow the user to place a picture
    * inside to change the present image.
    * </p>
-   * **/
-  public void changeImageButtonPushed(ActionEvent actionEvent) throws MalformedURLException {
+   */
+  public void changeImageButtonPushed() {
 
     FileChooser fileChooser = new FileChooser();
     //Set extension filter
@@ -129,7 +128,8 @@ public class AccountSettingsController {
    * PASSWORD and EMAIL column will be updated.
    * @param user the person using the application.
    * @return returns true if username is not taken.
-   **/
+   * @throws SQLException the SQLException.
+   */
   public boolean updateDatabase(users.User user) throws SQLException {
 
     Connection connection;
@@ -183,8 +183,9 @@ public class AccountSettingsController {
   /**
    * When this button is pushed, the username field is checked for correct format.
    * If username field is in correct format, will allow user to update username in USERINFO table;
-   * **/
-  public void changeUsernameButton(ActionEvent actionEvent) throws SQLException {
+   * @throws SQLException the SQL exception.
+   */
+  public void changeUsernameButton() throws SQLException {
 
     //if user name text field is not empty.
     if (!(username.getText().trim().isEmpty())) {
@@ -212,9 +213,10 @@ public class AccountSettingsController {
 
   /**
    * When this button is pushed, the email field is checked for correct format.
-   * If email field is in correct format, will allow user to update email in USERINFO table;
-   * **/
-  public void changeEmailButton(ActionEvent actionEvent) throws SQLException {
+   * If email field is in correct format, will allow user to update email in USERINFO table.
+   * @throws SQLException the SQL Exception.
+   */
+  public void changeEmailButton() throws SQLException {
 
     //if email text field is not empty.
     if (!(email.getText().trim().isEmpty())) {
@@ -243,8 +245,9 @@ public class AccountSettingsController {
    * When this button is pushed, the pswd field is checked for correct format and if equals pswd2.
    * If pswd field is in correct format and equals pswd2, will allow
    * user to update password in USERINFO table.
-   * **/
-  public void changePasswordButton(ActionEvent actionEvent) throws SQLException {
+   * @throws SQLException the SQL Exception.
+   */
+  public void changePasswordButton() throws SQLException {
 
     //if pswd field is not empty and matches pswd2.
     if (!(pswd.getText().trim().isEmpty()) && pswd.getText().equals(pswd2.getText())) {
@@ -285,7 +288,7 @@ public class AccountSettingsController {
    * @param incorrectTitle title for Error box.
    * @param incorrectMessage message for the Error box.
    * @return true if user presses ok to confirm change.
-   **/
+   */
   private boolean checkInput(Boolean isValid, String message, String successMessage,
       TextInputControl textField, String incorrectTitle, String incorrectMessage) {
 
@@ -322,7 +325,8 @@ public class AccountSettingsController {
    * The scene will change to main.MainMenuRide.fxml if it is false.
    * @param user The user's information pulled from the database, only the isAdriver field is used
    *      in this method.
-   **/
+   * @throws IOException the IO exception.
+   */
   public void getDriverOrRiderScene(users.User user) throws IOException {
 
     if (user.getIsAdriver()) {

@@ -1,13 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire
- * Date: 11/17/2018
- * When this scene loads, a progress bar will display on the screen.
- * When the progress bar reaches the end it will load backgroundcheck.BackGroundCheckSubmitted.fxml.
- * This is used to simulate waiting for the background check to pass.
- *
- *******************************************/
-
 package backgroundcheck;
 
 import com.jfoenix.controls.JFXProgressBar;
@@ -37,6 +27,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * When this scene loads, a progress bar will display on the screen.
+ * When the progress bar reaches the end it will load backgroundcheck.BackGroundCheckSubmitted.fxml.
+ * This is used to simulate waiting for the background check to pass.
+ * Date: 11/17/2018.
+ * @author Ryan McGuire
+ */
 public class BackgroundCheckController {
 
   @FXML JFXProgressBar progressBar;
@@ -96,7 +93,8 @@ public class BackgroundCheckController {
 
   /**
    * When this method is called it will update the  table USERINFO's DRIVER column to true.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   private void changeToDriver() throws SQLException {
 
     user = new login.LoginController().getUser();

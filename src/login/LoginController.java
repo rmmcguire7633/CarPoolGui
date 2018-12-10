@@ -1,16 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire
- * Date: 10/23/2018
- * This scene accesses the database to check if usernameTextField and password are valid.
- * If the user is valid it will promt the user and change the scene depending on the DRIVER column
- * in the USERINFO table value.
- * If user is not valid, there access will be blocked.
- * This scene also allows the user to navigate to the newuser.NewUser.fxml scene so they can
- * create an account to sign in.
- *
- *******************************************/
-
 package login;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -33,6 +20,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import newuser.Validator;
 
+/**
+ * This scene accesses the database to check if usernameTextField and password are valid.
+ * If the user is valid it will promt the user and change the scene depending on the DRIVER column
+ * in the USERINFO table value.
+ * If user is not valid, there access will be blocked.
+ * This scene also allows the user to navigate to the newuser.NewUser.fxml scene so they can
+ * create an account to sign in.
+ * Date 10/23/2018.
+ * @author Ryan McGuire
+ */
 public class LoginController {
 
   @FXML private JFXTextField usernameTextField;
@@ -45,8 +42,10 @@ public class LoginController {
   /**
    * When this method is called the scene will change to the Main menu
    * scene if usernameTextField and password is correct.
-   ***/
-  public void signInButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
+   * @throws IOException the IO exception.
+   * @throws SQLException the SQL exception.
+   */
+  public void signInButtonPushed() throws IOException, SQLException {
 
     boolean validSignIn = isValid();
 
@@ -79,8 +78,9 @@ public class LoginController {
 
   /**
    * When this method is called, the scene will change to newuser.NewUser.fxml.
+   * @throws IOException the IO exception.
    **/
-  public void newUserButtonPushed(ActionEvent actionEvent) throws IOException {
+  public void newUserButtonPushed() throws IOException {
 
 
     Parent newMemberParent = FXMLLoader.load(getClass().getResource("/newuser/NewUser.fxml"));
@@ -95,7 +95,8 @@ public class LoginController {
    * Searches database for usernameTextField and password and compares it against
    * the textfield and password field.
    * @return true if usernameTextField and password from the database match the textfield.
-   * */
+   * @throws SQLException the SQL exception.
+   */
   private boolean isValid() throws SQLException {
 
     boolean validation = false;

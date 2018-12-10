@@ -1,11 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire on 11/21/18
- * This scene allows the user to rate the the rider they picked from the tableview in
- * main.MainMenuDriveController in the drive tab.
- *
- *******************************************/
-
 package thankyoubox;
 
 import java.io.FileInputStream;
@@ -26,6 +18,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.controlsfx.control.Rating;
 
+/**
+ * This scene allows the user to rate the the rider they picked from the tableview in
+ * main.MainMenuDriveController in the drive tab.
+ * Date 11/21/2018
+ * @author Ryan McGuire
+ */
 public class ThankYouDriveController {
 
   @FXML private Rating rating;
@@ -45,8 +43,10 @@ public class ThankYouDriveController {
   /**
    * When this button is pushed, the average riders's rating will be updated with the selected
    * rating.
-   **/
-  public void submitButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
+   * @throws IOException the IO exception.
+   * @throws SQLException the SQL exception.
+   */
+  public void submitButtonPushed() throws IOException, SQLException {
 
     getRiderRating();
 
@@ -69,7 +69,8 @@ public class ThankYouDriveController {
   /**
    * When this method is called, it will get the RATING of the rider's USERNAME from the
    * USERINFO table.
-   **/
+   * @throws SQLException the SQL exception.
+   */
   public void getRiderRating() throws SQLException {
 
     final String query = "SELECT RATING FROM USERINFO WHERE USERNAME=?";

@@ -1,19 +1,3 @@
-/*******************************************
- *
- *@author - Ryan McGuire
- * Date: 10/25/2018
- * Contains the controller for the NewUser scene.
- * This class creates a new row into the USERINFO table from the input provided by the user.
- * Edited by Ryan McGurie 10/30/2018 - created database functionality.
- * Edited by Ryan McGuire 11/14/2018 - added validation method to make sure user
- * has correct format before
- * placing information into database.
- * Edited by Ryan McGuire 11/15/2018 - added alert box informing the user
- * of a successful and unsuccessful
- * input.
- *
- *******************************************/
-
 package newuser;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -33,6 +17,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Contains the controller for the NewUser scene.
+ * This class creates a new row into the USERINFO table from the input provided by the user.
+ * Edited by Ryan McGurie 10/30/2018 - created database functionality.
+ * Edited by Ryan McGuire 11/14/2018 - added validation method to make sure user
+ * has correct format before
+ * placing information into database.
+ * Edited by Ryan McGuire 11/15/2018 - added alert box informing the user
+ * of a successful and unsuccessful
+ * input.
+ * Date 10/25/2018
+ * @author Ryan McGuire
+ */
 public class NewUserController implements DataBaseHandler {
 
   @FXML private JFXPasswordField pswd;
@@ -50,8 +47,10 @@ public class NewUserController implements DataBaseHandler {
    * If user info is in a valid format a new row will be
    * created in the USERINFO table with information
    * from the textfield and the scene will change to the LoginScene.fxml.
-   * */
-  public void createNewUserButtonPushed(ActionEvent actionEvent) throws IOException, SQLException {
+   * @throws IOException the IO exception.
+   * @throws SQLException the SQL exception.
+   */
+  public void createNewUserButtonPushed() throws IOException, SQLException {
 
     //returns true if password is in the correct format.
     Boolean resultPassword = passwordValidator.validate(pswd.getText());
@@ -74,8 +73,9 @@ public class NewUserController implements DataBaseHandler {
 
   /**
    * When this button is pushed, the scene will change to LoginScene.fxml.
-   * **/
-  public void cancelButtonPushed(ActionEvent actionEvent) throws IOException {
+   * @throws IOException the IO exception.
+   */
+  public void cancelButtonPushed() throws IOException {
 
     Stage stage = main.MainLogin.getPrimaryStage();
 
@@ -152,7 +152,9 @@ public class NewUserController implements DataBaseHandler {
    Used to compare user type password.
    * @param checkDataBase method that performs database actions.
    * @param user the user type created from the text fields.
-   **/
+   * @throws IOException the IO exception.
+   * @throws SQLException the SQL exception.
+   */
   public void checkValidation(boolean resultUserName, boolean resultEmail, boolean resultPassword,
       String password2, DataBaseHandler checkDataBase, users.User user)
       throws IOException, SQLException {

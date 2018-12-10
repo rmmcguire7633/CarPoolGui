@@ -1,17 +1,14 @@
-/*******************************************
- *
- * @author - Ryan McGuire
- * Date: 10/30/2018
- * Holds the reg ex (correct format) for the email field.
- * Compares user input with correct format.
- *
- *******************************************/
-
 package newuser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Holds the reg ex (correct format) for the email field.
+ * Compares user input with correct format.
+ * Date 10/30/2018
+ * @author Ryan Ryan McGuire
+ */
 public class EmailValidator implements Validator {
 
   private Pattern pattern;
@@ -30,6 +27,9 @@ public class EmailValidator implements Validator {
       + "(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\"
       + "[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
+  /**
+   * Checks the format of the entered email.
+   */
   public EmailValidator() {
 
     pattern = Pattern.compile(EMAIL_FORMAT);

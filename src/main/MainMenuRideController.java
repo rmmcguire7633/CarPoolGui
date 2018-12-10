@@ -1,13 +1,3 @@
-/*******************************************
- *
- * @author - Ryan McGuire
- * Date: 11/17/2018
- * Same functions as the MainMenuDriveController with no table.
- * Table is replaced with text fields asking user for info so user can be authorized to drive.
- * Inherits the main.MainMenuDriveController class.
- *
- *******************************************/
-
 package main;
 
 import com.jfoenix.controls.JFXTextField;
@@ -21,6 +11,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import newuser.Validator;
 
+/**
+ * Same functions as the MainMenuDriveController with no table.
+ * Table is replaced with text fields asking user for info so user can be authorized to drive.
+ * Inherits the main.MainMenuDriveController class.
+ * Date 11/17/2018
+ * @author Ryan McGuire
+ */
 public class MainMenuRideController extends MainMenuDriveController {
 
   @FXML JFXTextField vehicleRegistration;
@@ -28,6 +25,9 @@ public class MainMenuRideController extends MainMenuDriveController {
   @FXML JFXTextField insuranceProvider;
   @FXML JFXTextField insuranceNumber;
 
+  /**
+   * The start up of the scene.
+   */
   public void initialize() {
 
     getStartUp();
@@ -38,8 +38,9 @@ public class MainMenuRideController extends MainMenuDriveController {
    * in the drive tab are empty.
    * If one of the fields is empty, an error box will appear.
    * If all text fields are filled, the scene back backgroundcheck.BackGroundCheck.fxml will load.
-   **/
-  public void submitButtonPushed(Event event) throws IOException {
+   * @throws IOException the IO exception.
+   */
+  public void submitButtonPushed() throws IOException {
 
     if (vehicleRegistration.getText().isEmpty() || driverLicense.getText().isEmpty()
         || insuranceProvider.getText().isEmpty() || insuranceNumber.getText().isEmpty()) {
