@@ -41,6 +41,7 @@ import newuser.Validator;
  * successful input on 11/15/2018.
  * @author James Hood
  * @author Ryan McGuire
+ *
  */
 public class AccountSettingsController {
 
