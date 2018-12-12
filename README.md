@@ -24,7 +24,7 @@ preferred java IDE or run from the command line.
 
 ## Prerequisites
 
-* **Windows 10 or macOs X**
+* **Windows 10 or higher*
 * **Java JDK version 8 or higher**
 * **Integrated development environment (IDE)** 
   * IntelliJ IDEA that can be found at https://www.jetbrains.com/
